@@ -14,7 +14,7 @@ import jp.co.sss.shop.form.LoginForm;
 import jp.co.sss.shop.repository.UserRepository;
 import jp.co.sss.shop.util.Constant;
 
-	//test
+	//test kawashima
 
 /**
  * ログイン機能のコントローラクラス
