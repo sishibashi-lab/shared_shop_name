@@ -4,16 +4,44 @@
 <meta charset="UTF-8" />
 </head>
 <body>
-<div th:fragment="layout-header" class="container">
-	<h1 th:class="site_title" th:text="#{shop.title}"></h1>
-	<div th:if="${session.user != null and session.user.authority == 2}" class="user_info">
-		<a th:href="@{/client/user/detail}" th:text="${session.user.name}"></a>さん | <a th:href="@{/logout}" th:text="#{logout}"></a>
-	</div>
-	<div th:if="${session.user != null and (session.user.authority == 0 or session.user.authority == 1)}" class="user_info">
-		<a th:href="@{/admin/user/detail/{id}(id=${session.user.id})}" th:text="${session.user.name}"></a>さん | <a th:href="@{/logout}" th:text="#{logout}"></a>
-	</div>
-	<div th:if="${session.user == null}" class="user_info">
-		<a th:href="@{/login}" th:text="#{login}"></a> | <a th:href="@{/client/user/regist/input/init}" th:text="#{client.regist}"></a>
+<div th:fragment="layout-header">
+	<!--/* ユーザー側ヘッダー */-->
+	<th:block th:if="${session.user == null or session.user.authority == 2}">
+		<div class="luxury_header">
+			<div class="luxury_header_inner">
+				<div class="luxury_header_left">
+					<a th:href="@{/}" class="luxury_header_link">Menu</a>
+					<span class="luxury_header_divider"></span>
+					<a th:href="@{/client/item/list/1}" class="luxury_header_link">Search</a>
+				</div>
+
+				<a th:href="@{/}" class="luxury_logo_area" aria-label="トップページへ">
+					<span class="luxury_logo_text">LOGO AREA</span>
+				</a>
+
+				<div class="luxury_header_right" th:if="${session.user == null}">
+					<a th:href="@{/login}" class="luxury_header_link">Login</a>
+					<span class="luxury_header_divider"></span>
+					<a th:href="@{/client/user/regist/input/init}" class="luxury_icon_text" aria-label="会員登録">♡</a>
+					<a th:href="@{/client/basket/list}" class="luxury_bag_icon" aria-label="買い物かご"></a>
+				</div>
+
+				<div class="luxury_header_right" th:if="${session.user != null and session.user.authority == 2}">
+					<a th:href="@{/client/user/detail}" class="luxury_header_link" th:text="${session.user.name}"></a>
+					<span class="luxury_header_divider"></span>
+					<a th:href="@{/logout}" class="luxury_header_link" th:text="#{logout}"></a>
+					<a th:href="@{/client/basket/list}" class="luxury_bag_icon" aria-label="買い物かご"></a>
+				</div>
+			</div>
+		</div>
+	</th:block>
+
+	<!--/* 管理者側ヘッダー：既存構成を維持 */-->
+	<div th:if="${session.user != null and (session.user.authority == 0 or session.user.authority == 1)}" class="container">
+		<h1 th:class="site_title" th:text="#{shop.title}"></h1>
+		<div class="user_info">
+			<a th:href="@{/admin/user/detail/{id}(id=${session.user.id})}" th:text="${session.user.name}"></a>さん | <a th:href="@{/logout}" th:text="#{logout}"></a>
+		</div>
 	</div>
 </div>
 </body>
