@@ -3,17 +3,17 @@ package jp.co.sss.shop.controller.admin.order;
 import java.util.ArrayList;
 import java.util.List;
 
-import jakarta.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import jakarta.servlet.http.HttpSession;
 import jp.co.sss.shop.bean.OrderBean;
 import jp.co.sss.shop.bean.OrderItemBean;
 import jp.co.sss.shop.entity.Order;
@@ -124,4 +124,9 @@ public class AdminOrderShowController {
 		return "admin/order/detail";
 	}
 
+	@PostMapping("/admin/order/list")
+	public String backToOrderList() {
+
+		return "redirect:/admin/order/list";
+	}
 }
