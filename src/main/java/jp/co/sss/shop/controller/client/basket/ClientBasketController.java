@@ -67,11 +67,10 @@ public class ClientBasketController {
 	/**
 	 * 商品をかごに追加する処理
 	 * @param id
-	 * @param orderNum
 	 * @return
 	 */
 	@RequestMapping(path = "/client/basket/add", method = RequestMethod.POST)
-	public String addBasketItem(@RequestParam Integer id, @RequestParam Integer orderNum) {
+	public String addBasketItem(@RequestParam Integer id) {
 		List<BasketBean> basketList = (List<BasketBean>) session.getAttribute("basketBeans");
 		Item item = itemRepository.getReferenceById(id);
 		if (basketList == null) {
@@ -80,7 +79,7 @@ public class ClientBasketController {
 		boolean isExisting = false;   //既にかごに存在するかどうか
 		for (BasketBean bean : basketList) {
 			if (bean.getId().equals(id)) {
-				bean.setOrderNum(bean.getOrderNum() + orderNum);
+				bean.setOrderNum(bean.getOrderNum() + 1);
 				isExisting = true;
 				break;
 			}
@@ -89,7 +88,7 @@ public class ClientBasketController {
 			BasketBean newBean = new BasketBean();
 			newBean.setId(item.getId());
 			newBean.setName(item.getName());
-			newBean.setOrderNum(orderNum);
+			newBean.setOrderNum(1);
 			newBean.setStock(item.getStock());
 			
 			basketList.add(newBean);
