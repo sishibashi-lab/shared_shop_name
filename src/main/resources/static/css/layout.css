@@ -69,6 +69,7 @@ body > .container {
 }
 .content {
 	padding:30px 0 60px;
+	
 }
 
 /* ---- ヘッダー ---- */
@@ -337,13 +338,15 @@ aside.admin_menu {
 	color:#C00;
 }
 .complete_message,
-.complete_link {
+.complete_link,
+.complete_link a:visited {
 	font-size: 1.2em;
 	margin-top: 30px;
 	padding-left: 30px;
+	color: #222;
 }
 .complete_link a:hover {
-	color: #d34320;
+	opacity: 0.65;
 }
 
 /* ---- フッター ---- */
