@@ -66,6 +66,7 @@ p {
 .login_form .error_list {
 	display:flex; 
 	justify-content:center;
+	font-size: 11px;
 }
 .new_regist,.new_regist:visited{
 	color: #222;
