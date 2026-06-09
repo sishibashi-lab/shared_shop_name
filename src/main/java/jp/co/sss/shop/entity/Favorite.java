@@ -1,0 +1,77 @@
+package jp.co.sss.shop.entity;
+
+import java.util.Date;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name="favorites")
+public class Favorite {
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_favorites_gen")
+	@SequenceGenerator(name = "seq_favorites_gen", sequenceName = "seq_favorites", allocationSize = 1)
+	private Integer id;
+	
+	@ManyToOne
+	@JoinColumn(name="user_id",referencedColumnName="id")
+	private User user;
+	
+	@ManyToOne
+	@JoinColumn(name="item_id",referencedColumnName="id")
+	private Item item;
+	
+	@Column(name="delete_flag")
+	private Integer deleteFlag;
+	
+	@Column(name="favorite_date")
+	private Date favoriteDate;
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Item getItem() {
+		return item;
+	}
+
+	public void setItem(Item item) {
+		this.item = item;
+	}
+
+	public Integer getDeleteFlag() {
+		return deleteFlag;
+	}
+
+	public void setDeleteFlag(Integer deleteFlag) {
+		this.deleteFlag = deleteFlag;
+	}
+
+	public Date getFavoriteDate() {
+		return favoriteDate;
+	}
+
+	public void setFavoriteDate(Date favoriteDate) {
+		this.favoriteDate = favoriteDate;
+	}
+
+}
