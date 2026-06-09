@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	th:replace="~{common/layout_5block :: layout(~{::title},~{::body/content()})}">
+
+<head>
+	<title th:text="'お気に入り一覧 | ' + #{shop.title}">お気に入り一覧 | System Shared</title>
+	<meta charset="UTF-8" />
+</head>
+
+<body class="user favorite_list_page">
+	<section class="favorite_editorial_area">
+		<div class="favorite_editorial_frame">
+			<div class="favorite_editorial_header">
+				<div class="favorite_menu_mark" aria-hidden="true">
+					<span></span>
+					<span></span>
+				</div>
+				<p class="favorite_brand_text">SHARED SHOP / SAVED EDIT</p>
+				<p class="favorite_header_count">
+					WISHLIST
+					<span th:text="${favoriteCount}">0</span>
+				</p>
+			</div>
+
+			<div class="favorite_intro_row">
+				<p class="favorite_intro_slash">/ WISHLIST</p>
+				<div class="favorite_intro_text">
+					<h1>FAVORITE<br />ITEMS</h1>
+					<p>
+						お気に入りに保存した商品を、あとから比較・検討できます。<br />
+						必要な操作だけを残した、シンプルな保存リストです。
+					</p>
+				</div>
+			</div>
+
+			<div class="favorite_empty_box" th:if="${#lists.isEmpty(favoriteItems)}">
+				<p class="favorite_empty_label">/ EMPTY LIST</p>
+				<p class="favorite_empty_title">まだお気に入りはありません</p>
+				<p class="favorite_empty_text">
+					気になる商品をお気に入りに追加すると、この画面に表示されます。
+				</p>
+				<a class="favorite_empty_button" th:href="@{/client/item/list/1}">SHOP ITEMS</a>
+			</div>
+
+			<div th:unless="${#lists.isEmpty(favoriteItems)}" th:with="featured=${favoriteItems[0]}">
+				<div class="favorite_feature_panel">
+					<aside class="favorite_feature_side">
+						<p class="favorite_side_title">SAVED ITEMS</p>
+						<ul>
+							<li>All favorites</li>
+							<li>Recently added</li>
+							<li>Compare later</li>
+						</ul>
+						<p class="favorite_side_title favorite_side_title_second">ACCOUNT</p>
+						<ul>
+							<li>Wishlist</li>
+							<li>Cart</li>
+							<li>Orders</li>
+						</ul>
+					</aside>
+
+					<a class="favorite_feature_image" th:href="@{/client/item/detail/{id}(id=${featured.id})}">
+						<span class="favorite_badge" th:if="${featured.badge != null and !#strings.isEmpty(featured.badge)}" th:text="${featured.badge}">NEW</span>
+						<img th:src="${featured.image}" th:if="${featured.image != null and !#strings.isEmpty(featured.image)}" th:alt="${featured.name}" />
+						<img th:src="@{/images/common/no_image.jpg}" th:if="${featured.image == null or #strings.isEmpty(featured.image)}" th:alt="${featured.name}" />
+					</a>
+
+					<div class="favorite_feature_info">
+						<p class="favorite_feature_kicker">/ FEATURED FAVORITE</p>
+						<h2 th:text="${featured.name}">Item Name</h2>
+						<p class="favorite_feature_desc">
+							<span th:text="${featured.categoryName}">Category</span>
+							<span> / </span>
+							<span th:text="${featured.material}">Material</span>
+						</p>
+						<p class="favorite_feature_price" th:text="'¥' + ${#numbers.formatInteger(featured.price, 1, 'COMMA')} + '（税込）'">¥0（税込）</p>
+						<div class="favorite_feature_action">
+							<a class="favorite_primary_button" th:href="@{/client/item/detail/{id}(id=${featured.id})}">VIEW DETAILS</a>
+							<a class="favorite_secondary_button" th:href="@{/favorite/delete/{id}(id=${featured.id})}">REMOVE</a>
+						</div>
+					</div>
+				</div>
+
+				<div class="favorite_section_heading">
+					<h2>/ SAVED PIECES</h2>
+					<p>
+						<span th:text="${favoriteCount}">0</span>
+						items saved for later
+					</p>
+				</div>
+
+				<div class="favorite_editorial_grid">
+					<div class="favorite_card" th:each="favoriteItem : ${favoriteItems}">
+						<a class="favorite_image_link" th:href="@{/client/item/detail/{id}(id=${favoriteItem.id})}">
+							<span class="favorite_badge" th:if="${favoriteItem.badge != null and !#strings.isEmpty(favoriteItem.badge)}" th:text="${favoriteItem.badge}">NEW</span>
+							<span class="favorite_heart_button" aria-label="お気に入り解除">♡</span>
+							<img th:src="${favoriteItem.image}" th:if="${favoriteItem.image != null and !#strings.isEmpty(favoriteItem.image)}" th:alt="${favoriteItem.name}" />
+							<img th:src="@{/images/common/no_image.jpg}" th:if="${favoriteItem.image == null or #strings.isEmpty(favoriteItem.image)}" th:alt="${favoriteItem.name}" />
+						</a>
+
+						<div class="favorite_card_body">
+							<p class="favorite_category" th:text="${favoriteItem.categoryName}">Category</p>
+							<h3 class="favorite_item_name">
+								<a th:href="@{/client/item/detail/{id}(id=${favoriteItem.id})}" th:text="${favoriteItem.name}">Item Name</a>
+							</h3>
+							<p class="favorite_material" th:text="${favoriteItem.material}">Material</p>
+							<p class="favorite_price" th:text="'¥' + ${#numbers.formatInteger(favoriteItem.price, 1, 'COMMA')} + '（税込）'">¥0（税込）</p>
+						</div>
+
+						<div class="favorite_card_action">
+							<a class="favorite_detail_button" th:href="@{/client/item/detail/{id}(id=${favoriteItem.id})}">VIEW DETAILS</a>
+							<a class="favorite_delete_button" th:href="@{/favorite/delete/{id}(id=${favoriteItem.id})}">REMOVE</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</body>
+
+</html>
