@@ -45,8 +45,8 @@ public class ClientItemShowController {
 	 */
 	@RequestMapping(path = "/", method = { RequestMethod.GET, RequestMethod.POST })
 	public String index(Model model) {
-		// リポジトリの新着順メソッドを使用して、未削除の商品を全件取得
-		List<Item> items = itemRepository.findListByNewest(Constant.NOT_DELETED);
+		// リポジトリの売れ筋順メソッドを使用して、未削除の商品を全件取得
+		List<Item> items = itemRepository.findListByPopular(Constant.NOT_DELETED);
 		
 		// ループ処理で1件ずつ確実にItemBeanへコピー
 		List<ItemBean> itemBeans = new ArrayList<>();
@@ -57,8 +57,8 @@ public class ClientItemShowController {
 		// 商品一覧画面のHTMLと互換性を持たせるため、同じ属性名 "items" でモデルに登録
 		model.addAttribute("items", itemBeans);
 		
-		// クエリパラメータ（sortTypeやcategoryId）の初期値として、新着順(1)・全件(0)を画面に送る
-		model.addAttribute("sortType", 1);
+		// クエリパラメータ（sortTypeやcategoryId）の初期値として、売れ筋順(1)・全件(0)を画面に送る
+		model.addAttribute("sortType", 2);
 		model.addAttribute("categoryId", 0);
 		
 		return "index";
@@ -83,20 +83,20 @@ public class ClientItemShowController {
 				// 新着順で全件取得
 				finalItems = itemRepository.findListByNewest(Constant.NOT_DELETED);
 			} else if (sortType == 2) {
-				// 売れ筋順で全件取得
-				finalItems = itemRepository.findListByPopular();
+				// 【修正】売れ筋順で全件取得（削除フラグを追加）
+				finalItems = itemRepository.findListByPopular(Constant.NOT_DELETED);
 			}
 		} 
 		else {
 			// カテゴリIDが0以外で指定されている場合は、条件を絞ってデータベースから直接取得
 			if (sortType == 1) {
-				// 新着順かつカテゴリ指定（リポジトリの専用メソッドで直接取得）
+				// 新着順かつカテゴリ指定
 				finalItems = itemRepository.findLatestByCategory(categoryId, Constant.NOT_DELETED);
 			} else if (sortType == 2) {
-				// 売れ筋順かつカテゴリ指定（リポジトリの専用メソッドで直接取得）
-				finalItems = itemRepository.findPopularByCategory(categoryId);
+				// 【修正】売れ筋順かつカテゴリ指定（削除フラグを追加）
+				finalItems = itemRepository.findPopularByCategory(categoryId, Constant.NOT_DELETED);
 			} else {
-				// 標準のカテゴリ検索（並び順：ID昇順）リポジトリに追加されたメソッドを直接呼び出す
+				// 標準のカテゴリ検索（並び順：ID昇順）
 				finalItems = itemRepository.findActiveByCategoryId(categoryId, Constant.NOT_DELETED);
 			}
 		}

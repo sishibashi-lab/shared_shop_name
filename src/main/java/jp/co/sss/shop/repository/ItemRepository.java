@@ -53,8 +53,8 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
 	 * 
 	 * @return 商品エンティティのリスト
 	 */
-	@Query("SELECT i FROM Item i LEFT JOIN OrderItem oi ON oi.item = i GROUP BY i.id, i.name, i.price, i.description, i.image, i.stock, i.deleteFlag, i.insertDate, i.category.id ORDER BY SUM(oi.quantity) DESC NULLS LAST")
-	List<Item> findListByPopular();
+	@Query("SELECT i FROM Item i LEFT JOIN OrderItem oi ON oi.item = i WHERE i.deleteFlag = :deleteFlag GROUP BY i.id, i.name, i.price, i.description, i.image, i.stock, i.deleteFlag, i.insertDate, i.category.id ORDER BY SUM(oi.quantity) DESC NULLS LAST, i.id DESC")
+	List<Item> findListByPopular(@Param(value = "deleteFlag") int deleteFlag);
 
 	/**
 	 * 未削除の商品を新着順（登録日付の新しい順）に取得（一般会員用一覧で利用）
@@ -92,6 +92,6 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
 	 * @param categoryId カテゴリID
 	 * @return 商品エンティティのリスト
 	 */
-	@Query("SELECT i FROM Item i LEFT JOIN OrderItem oi ON oi.item = i WHERE i.category.id = :categoryId GROUP BY i.id, i.name, i.price, i.description, i.image, i.stock, i.deleteFlag, i.insertDate, i.category.id ORDER BY SUM(oi.quantity) DESC NULLS LAST")
-	List<Item> findPopularByCategory(@Param("categoryId") Integer categoryId);
+	@Query("SELECT i FROM Item i LEFT JOIN OrderItem oi ON oi.item = i WHERE i.deleteFlag = :deleteFlag AND i.category.id = :categoryId GROUP BY i.id, i.name, i.price, i.description, i.image, i.stock, i.deleteFlag, i.insertDate, i.category.id ORDER BY SUM(oi.quantity) DESC NULLS LAST, i.id DESC")
+	List<Item> findPopularByCategory(@Param("categoryId") Integer categoryId, @Param("deleteFlag") int deleteFlag);
 }
