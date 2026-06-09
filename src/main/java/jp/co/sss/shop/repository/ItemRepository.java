@@ -53,9 +53,8 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
 	 * 
 	 * @return 商品エンティティのリスト
 	 */
-	@Query("SELECT i FROM Item i LEFT JOIN OrderItem oi ON oi.item = i WHERE i.deleteFlag = :deleteFlag GROUP BY i.id, i.name, i.price, i.description, i.image, i.stock, i.deleteFlag, i.insertDate, i.category.id ORDER BY SUM(oi.quantity) DESC NULLS LAST, i.id DESC")
-	List<Item> findListByPopular(@Param(value = "deleteFlag") int deleteFlag);
-
+	@Query("SELECT i FROM Item i LEFT JOIN OrderItem oi ON oi.item = i WHERE i.deleteFlag = :deleteFlag GROUP BY i.id, i.name, i.price, i.description, i.image, i.stock, i.deleteFlag, i.insertDate, i.category.id ORDER BY COALESCE(SUM(oi.quantity), 0) DESC, i.id DESC")
+	List<Item> findListByPopular(@Param("deleteFlag") int deleteFlag);
 	/**
 	 * 未削除の商品を新着順（登録日付の新しい順）に取得（一般会員用一覧で利用）
 	 * 
