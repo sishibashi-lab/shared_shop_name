@@ -66,6 +66,7 @@ p {
 .login_form .error_list {
 	display:flex; 
 	justify-content:center;
+	font-size: 11px;
 }
 .new_regist,.new_regist:visited{
 	color: #222;
@@ -86,12 +87,12 @@ p {
 	  bottom: -2px; /* 要素の下端からの距離 */
 	  content: ""; /* 要素に内容を追加 */
 	  height: 2px; /* 下線の高さ */
-	  left: 53.5%; /* 要素の左端からの距離 */
+	  left: calc(50% + 30px); /* 要素の左端からの距離 */
 	  position: absolute; /* 絶対位置指定 */
 	  transform: scale(0, 1); /* 下線を横方向に0倍、縦方向に1倍に変形（非表示） */
 	  transform-origin: center top; /* 変形の原点を中央上に指定 */
 	  transition: transform .3s; /* 変形をアニメーション化 */
-	  width: 10%; /* 要素の幅 */
+	  width: 100px; /* 要素の幅 */
 }
 .new_regist:hover::after{
 	transform: scale(1, 1);
@@ -101,12 +102,12 @@ p {
 	  bottom: -2px; /* 要素の下端からの距離 */
 	  content: ""; /* 要素に内容を追加 */
 	  height: 2px; /* 下線の高さ */
-	  left:36.5%; /* 要素の左端からの距離 */
+	  right: calc(50% + 30px); /* 要素の左端からの距離 */
 	  position: absolute; /* 絶対位置指定 */
 	  transform: scale(0, 1); /* 下線を横方向に0倍、縦方向に1倍に変形（非表示） */
 	  transform-origin: center top; /* 変形の原点を中央上に指定 */
 	  transition: transform .3s; /* 変形をアニメーション化 */
-	  width: 10%; /* 要素の幅 */
+	  width: 100px; /* 要素の幅 */
 }
 .input_submit:hover::after{
 	transform: scale(1, 1);
