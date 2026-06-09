@@ -90,23 +90,11 @@ public class ClientItemShowController {
 		else {
 			// カテゴリIDが0以外で指定されている場合は、条件を絞ってデータベースから直接取得
 			if (sortType == 1) {
-				// 新着順かつカテゴリ指定
-				// 現状リポジトリに「新着順のカテゴリ絞り込み用メソッド」がないため、新着順の全件からJava側で抽出
-				List<Item> allNewItems = itemRepository.findListByNewest(Constant.NOT_DELETED);
-				for (Item item : allNewItems) {
-					if (item.getCategory() != null && categoryId.equals(item.getCategory().getId())) {
-						finalItems.add(item);
-					}
-				}
+				// 新着順かつカテゴリ指定（リポジトリの専用メソッドで直接取得）
+				finalItems = itemRepository.findLatestByCategory(categoryId, Constant.NOT_DELETED);
 			} else if (sortType == 2) {
-				// 売れ筋順かつカテゴリ指定
-				// 現状リポジトリに「売れ筋順のカテゴリ絞り込み用メソッド」がないため、売れ筋順の全件からJava側で抽出
-				List<Item> allSalesItems = itemRepository.findListByPopular();
-				for (Item item : allSalesItems) {
-					if (item.getCategory() != null && categoryId.equals(item.getCategory().getId())) {
-						finalItems.add(item);
-					}
-				}
+				// 売れ筋順かつカテゴリ指定（リポジトリの専用メソッドで直接取得）
+				finalItems = itemRepository.findPopularByCategory(categoryId);
 			} else {
 				// 標準のカテゴリ検索（並び順：ID昇順）リポジトリに追加されたメソッドを直接呼び出す
 				finalItems = itemRepository.findActiveByCategoryId(categoryId, Constant.NOT_DELETED);
