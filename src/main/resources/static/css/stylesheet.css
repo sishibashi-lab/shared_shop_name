@@ -115,7 +115,10 @@ p {
 .complete_link a{
 	text-decoration: none;
 }
-
+#back_top{
+	margin-left: 0px;
+	text-align: center;
+}
 
 /* ---- ページタイトル ---- */
 .page_title {
