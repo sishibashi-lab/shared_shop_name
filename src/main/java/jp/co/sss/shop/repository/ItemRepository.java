@@ -74,4 +74,24 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
 	 */
 	@Query("SELECT i FROM Item i WHERE i.deleteFlag = :deleteFlag AND i.category.id = :categoryId ORDER BY i.id ASC")
 	List<Item> findActiveByCategoryId(@Param(value = "categoryId") Integer categoryId, @Param(value = "deleteFlag") int deleteFlag);
+	
+	
+	/**
+	 * 特定のカテゴリに所属する未削除の商品を新着順に取得
+	 * 
+	 * @param categoryId カテゴリID
+	 * @param deleteFlag 削除フラグ
+	 * @return 商品エンティティのリスト
+	 */
+	@Query("SELECT i FROM Item i WHERE i.deleteFlag = :deleteFlag AND i.category.id = :categoryId ORDER BY i.insertDate DESC, i.id DESC")
+	List<Item> findLatestByCategory(@Param("categoryId") Integer categoryId, @Param("deleteFlag") int deleteFlag);
+	
+	/**
+	 * 特定のカテゴリに所属する未削除の商品を売れ筋順に取得
+	 * 
+	 * @param categoryId カテゴリID
+	 * @return 商品エンティティのリスト
+	 */
+	@Query("SELECT i FROM Item i LEFT JOIN OrderItem oi ON oi.item = i WHERE i.category.id = :categoryId GROUP BY i.id, i.name, i.price, i.description, i.image, i.stock, i.deleteFlag, i.insertDate, i.category.id ORDER BY SUM(oi.quantity) DESC NULLS LAST")
+	List<Item> findPopularByCategory(@Param("categoryId") Integer categoryId);
 }
