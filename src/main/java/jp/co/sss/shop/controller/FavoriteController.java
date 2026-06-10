@@ -31,19 +31,26 @@ public class FavoriteController {
 	UserRepository userRepository;
 	
 	//お気に入り一覧表示
-	@GetMapping("/favorite/list")
+	@GetMapping({"/favorite/list", "/client/favorite/list"})
     public String list(Model model,HttpSession session) {
-        model.addAttribute("message", "TODO: FAVORITESテーブルからお気に入り商品を取得して表示してください。");
         UserBean user=(UserBean) session.getAttribute("user");
-        model.addAttribute("favoriteItems", favoriteRepository.findByUserIdAndDeleteFlagOrderByFavoriteDateDesc(user.getId(), 0));
+        if (user == null) {
+            return "redirect:/login";
+        }
+
+        List<Favorite> favoriteItems = favoriteRepository.findByUserIdAndDeleteFlagOrderByFavoriteDateDesc(user.getId(), 0);
+        model.addAttribute("favoriteItems", favoriteItems);
+        model.addAttribute("favoriteCount", favoriteItems.size());
         return "/client/favorite/list";
     }
 	
 	//お気に入り登録/削除---商品一覧
     @PostMapping("/list/favorite/regist/{id}/{sortType}")
     public String addItemList(@PathVariable("id") Integer id,@PathVariable("sortType") Integer sortType, RedirectAttributes redirectAttributes,HttpSession session) {
-        redirectAttributes.addFlashAttribute("message", "TODO: 商品ID「" + id + "」をFAVORITESテーブルへ登録してください。");
         UserBean user=(UserBean) session.getAttribute("user");
+        if (user == null) {
+            return "redirect:/login";
+        }
 
         Favorite favoriteItem = favoriteRepository.findByUserIdAndItemId(user.getId(), id);
 
@@ -68,16 +75,16 @@ public class FavoriteController {
 			favoriteItem.setDeleteFlag(1);
 			favoriteItem = favoriteRepository.save(favoriteItem);
 		}
-		System.out.println("aaaaaa");
-		
         return "redirect:/client/item/list/"+sortType;
     }
 
 	//お気に入り登録/削除---商品一覧
     @PostMapping("/detail/favorite/regist/{id}")
     public String addItemDetail(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes,HttpSession session) {
-        redirectAttributes.addFlashAttribute("message", "TODO: 商品ID「" + id + "」をFAVORITESテーブルへ登録してください。");
         UserBean user=(UserBean) session.getAttribute("user");
+        if (user == null) {
+            return "redirect:/login";
+        }
 
         Favorite favoriteItem = favoriteRepository.findByUserIdAndItemId(user.getId(), id);
 
@@ -108,8 +115,10 @@ public class FavoriteController {
 	//お気に入り登録/削除---トップ
     @PostMapping("/index/favorite/regist/{id}")
     public String addItemTop(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes,HttpSession session) {
-        redirectAttributes.addFlashAttribute("message", "TODO: 商品ID「" + id + "」をFAVORITESテーブルへ登録してください。");
         UserBean user=(UserBean) session.getAttribute("user");
+        if (user == null) {
+            return "redirect:/login";
+        }
 
         Favorite favoriteItem = favoriteRepository.findByUserIdAndItemId(user.getId(), id);
 
@@ -139,14 +148,16 @@ public class FavoriteController {
     //お気に入り削除
     @PostMapping("/favorite/delete")
     public String delete(@RequestParam("id") Integer id, RedirectAttributes redirectAttributes,HttpSession session) {
-        redirectAttributes.addFlashAttribute("message", "TODO: 商品ID「" + id + "」をFAVORITESテーブルから削除してください。");
         UserBean user=(UserBean) session.getAttribute("user");
+        if (user == null) {
+            return "redirect:/login";
+        }
 
-        boolean isItemId = favoriteRepository.existsById(id);
-        if (isItemId) {
-			List<Favorite> favorite = favoriteRepository.findByItemId(id);
-			favoriteRepository.deleteAll(favorite);
-		}
+        Favorite favoriteItem = favoriteRepository.findByUserIdAndItemId(user.getId(), id);
+        if (favoriteItem != null) {
+            favoriteItem.setDeleteFlag(1);
+            favoriteRepository.save(favoriteItem);
+        }
         
         return "redirect:/favorite/list";
     }
