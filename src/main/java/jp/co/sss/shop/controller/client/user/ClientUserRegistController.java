@@ -51,7 +51,11 @@ public class ClientUserRegistController {
 		}
 
 		//画面から受け取ったformの値をsessionFormにコピー
-		BeanUtils.copyProperties(form, sessionForm);
+		if (form.getName() != null || form.getEmail() != null) {
+			BeanUtils.copyProperties(form, sessionForm);
+		} else {
+			BeanUtils.copyProperties(sessionForm, form);
+		}
 
 		//入力フォーム情報をセッションスコープに保存
 		session.setAttribute("userForm", sessionForm);
