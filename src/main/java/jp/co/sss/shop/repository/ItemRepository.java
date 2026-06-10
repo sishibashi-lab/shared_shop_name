@@ -46,11 +46,11 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
 	public Item findByNameAndDeleteFlag(String name, int notDeleted);
 	
 	/**
-	 * 未削除の商品を売れ筋順（注文個数の合計順）に取得（一般会員用一覧で利用）
+	 * 未削除の商品を売れ筋順に取得（実際に1件以上注文された商品のみ）
 	 * * @param deleteFlag 削除フラグ
 	 * @return 商品エンティティのリスト
 	 */
-	@Query("SELECT i FROM Item i LEFT JOIN OrderItem oi ON oi.item = i WHERE i.deleteFlag = :deleteFlag GROUP BY i.id, i.name, i.price, i.description, i.image, i.stock, i.deleteFlag, i.insertDate, i.category.id ORDER BY COALESCE(SUM(oi.quantity), 0) DESC, i.id DESC")
+	@Query("SELECT i FROM Item i INNER JOIN OrderItem oi ON oi.item = i WHERE i.deleteFlag = :deleteFlag GROUP BY i.id, i.name, i.price, i.description, i.image, i.stock, i.deleteFlag, i.insertDate, i.category.id ORDER BY SUM(oi.quantity) DESC, i.id DESC")
 	List<Item> findListByPopular(@Param("deleteFlag") int deleteFlag);
 
 	/**
@@ -65,7 +65,7 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
 	 * 特定のカテゴリに所属する未削除の商品を取得（一般会員用カテゴリ検索で利用）
 	 * * @param categoryId カテゴリID
 	 * @param deleteFlag 削除フラグ
-	 * @return 商品エンティティのリスト
+	 * @return 商品エンティティ的リスト
 	 */
 	@Query("SELECT i FROM Item i WHERE i.deleteFlag = :deleteFlag AND i.category.id = :categoryId ORDER BY i.id ASC")
 	List<Item> findActiveByCategoryId(@Param(value = "categoryId") Integer categoryId, @Param(value = "deleteFlag") int deleteFlag);
@@ -80,11 +80,31 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
 	List<Item> findLatestByCategory(@Param("categoryId") Integer categoryId, @Param("deleteFlag") int deleteFlag);
 	
 	/**
-	 * 特定のカテゴリに所属する未削除の商品を売れ筋順に取得
+	 * 特定のカテゴリに所属する未削除の商品を売れ筋順に取得（実際に1件以上注文された商品のみ）
 	 * * @param categoryId カテゴリID
 	 * @param deleteFlag 削除フラグ
 	 * @return 商品エンティティのリスト
 	 */
-	@Query("SELECT i FROM Item i LEFT JOIN OrderItem oi ON oi.item = i WHERE i.deleteFlag = :deleteFlag AND i.category.id = :categoryId GROUP BY i.id, i.name, i.price, i.description, i.image, i.stock, i.deleteFlag, i.insertDate, i.category.id ORDER BY COALESCE(SUM(oi.quantity), 0) DESC, i.id DESC")
+	@Query("SELECT i FROM Item i INNER JOIN OrderItem oi ON oi.item = i WHERE i.deleteFlag = :deleteFlag AND i.category.id = :categoryId GROUP BY i.id, i.name, i.price, i.description, i.image, i.stock, i.deleteFlag, i.insertDate, i.category.id ORDER BY SUM(oi.quantity) DESC, i.id DESC")
 	List<Item> findPopularByCategory(@Param("categoryId") Integer categoryId, @Param("deleteFlag") int deleteFlag);
+	
+	/**
+	 * 商品名にあいまい検索キーワードを含む、未削除の商品を売れ筋順に取得（実際に1件以上注文された商品のみ）
+	 *
+	 * @param keyword    検索キーワード (例: "%りんご%")
+	 * @param deleteFlag 削除フラグ
+	 * @return 商品エンティティのリスト
+	 */
+	@Query("SELECT i FROM Item i INNER JOIN OrderItem oi ON oi.item = i WHERE i.deleteFlag = :deleteFlag AND i.name LIKE :keyword GROUP BY i.id, i.name, i.price, i.description, i.image, i.stock, i.deleteFlag, i.insertDate, i.category.id ORDER BY SUM(oi.quantity) DESC, i.id DESC")
+	List<Item> findListByPopularAndKeyword(@Param("keyword") String keyword, @Param("deleteFlag") int deleteFlag);
+	
+	/**
+	 * 商品名にあいまい検索キーワードを含む、未削除の商品を新着順（登録日付の新しい順）に取得
+	 *
+	 * @param keyword    検索キーワード (例: "%りんご%")
+	 * @param deleteFlag 削除フラグ
+	 * @return 商品エンティティのリスト
+	 */
+	@Query("SELECT i FROM Item i WHERE i.deleteFlag = :deleteFlag AND i.name LIKE :keyword ORDER BY i.insertDate DESC, i.id DESC")
+	List<Item> findListByNewestAndKeyword(@Param("keyword") String keyword, @Param("deleteFlag") int deleteFlag);
 }
