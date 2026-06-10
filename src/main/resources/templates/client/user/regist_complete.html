@@ -1,13 +1,22 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-    th:replace="~{common/layout_5block :: layout(~{::title},~{::body/content()})}">
+    th:replace="~{common/layout_3block :: layout(~{::title},~{::body/content()},@{/css/client/user/regist.css})}">
 <head>
 	<title th:text="#{user}+#{title.input.complete}+' | '+ #{shop.title}"> </title>
-<meta charset="UTF-8" />
+	<meta charset="UTF-8" />
 </head>
-<body class="user user_regist_complete">
-	<h2 th:class="title" th:text="#{user}+#{title.input.complete}"></h2>
-	<p class="complete_message" th:text="#{user}+#{msg.regist.complete}"></p>
-		<p class="complete_link"><a th:href="@{/}" th:text="#{msg.back.to.top}"></a></p>
+<body>
+	<div class="auth_page auth_page_register">
+		<section class="auth_panel auth_panel_complete" aria-labelledby="registerCompleteTitle">
+			<div class="auth_complete_mark" aria-hidden="true">✓</div>
+			<p class="auth_kicker">REGISTRATION COMPLETE</p>
+			<h2 id="registerCompleteTitle" class="auth_title" th:text="#{user}+#{title.input.complete}">会員登録完了</h2>
+			<p class="auth_description" th:text="#{user}+#{msg.regist.complete}">会員情報の登録が完了しました。</p>
+			<div class="auth_action_row auth_action_row_center">
+				<a th:href="@{/}" class="auth_primary_link" th:text="#{msg.back.to.top}">トップへ戻る</a>
+				<a th:href="@{/client/item/list/1}" class="auth_text_link">商品を見る</a>
+			</div>
+		</section>
+	</div>
 </body>
 </html>

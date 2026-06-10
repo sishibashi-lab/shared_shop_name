@@ -21,8 +21,7 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
 
 	/**
 	 * 商品情報を登録日付順に取得 管理者機能で利用
-	 * 
-	 * @param deleteFlag 削除フラグ
+	 * * @param deleteFlag 削除フラグ
 	 * @param pageable   ページング情報
 	 * @return 商品エンティティのページオブジェクト
 	 */
@@ -32,8 +31,7 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
 
 	/**
 	 * 商品IDと削除フラグを条件に検索（管理者機能で利用）
-	 * 
-	 * @param id         商品ID
+	 * * @param id         商品ID
 	 * @param deleteFlag 削除フラグ
 	 * @return 商品エンティティ
 	 */
@@ -41,8 +39,7 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
 
 	/**
 	 * 商品名と削除フラグを条件に検索 (ItemValidatorで利用)
-	 * 
-	 * @param name       商品名
+	 * * @param name       商品名
 	 * @param notDeleted 削除フラグ
 	 * @return 商品エンティティ
 	 */
@@ -50,16 +47,15 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
 	
 	/**
 	 * 未削除の商品を売れ筋順（注文個数の合計順）に取得（一般会員用一覧で利用）
-	 * 
+	 * * @param deleteFlag 削除フラグ
 	 * @return 商品エンティティのリスト
 	 */
-	@Query("SELECT i FROM Item i LEFT JOIN OrderItem oi ON oi.item = i GROUP BY i.id, i.name, i.price, i.description, i.image, i.stock, i.deleteFlag, i.insertDate, i.category.id ORDER BY SUM(oi.quantity) DESC NULLS LAST")
-	List<Item> findListByPopular();
+	@Query("SELECT i FROM Item i LEFT JOIN OrderItem oi ON oi.item = i WHERE i.deleteFlag = :deleteFlag GROUP BY i.id, i.name, i.price, i.description, i.image, i.stock, i.deleteFlag, i.insertDate, i.category.id ORDER BY COALESCE(SUM(oi.quantity), 0) DESC, i.id DESC")
+	List<Item> findListByPopular(@Param("deleteFlag") int deleteFlag);
 
 	/**
 	 * 未削除の商品を新着順（登録日付の新しい順）に取得（一般会員用一覧で利用）
-	 * 
-	 * @param deleteFlag 削除フラグ
+	 * * @param deleteFlag 削除フラグ
 	 * @return 商品エンティティのリスト
 	 */
 	@Query("SELECT i FROM Item i WHERE i.deleteFlag = :deleteFlag ORDER BY i.insertDate DESC, i.id DESC")
@@ -67,19 +63,16 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
 	
 	/**
 	 * 特定のカテゴリに所属する未削除の商品を取得（一般会員用カテゴリ検索で利用）
-	 * 
-	 * @param categoryId カテゴリID
+	 * * @param categoryId カテゴリID
 	 * @param deleteFlag 削除フラグ
 	 * @return 商品エンティティのリスト
 	 */
 	@Query("SELECT i FROM Item i WHERE i.deleteFlag = :deleteFlag AND i.category.id = :categoryId ORDER BY i.id ASC")
 	List<Item> findActiveByCategoryId(@Param(value = "categoryId") Integer categoryId, @Param(value = "deleteFlag") int deleteFlag);
 	
-	
 	/**
 	 * 特定のカテゴリに所属する未削除の商品を新着順に取得
-	 * 
-	 * @param categoryId カテゴリID
+	 * * @param categoryId カテゴリID
 	 * @param deleteFlag 削除フラグ
 	 * @return 商品エンティティのリスト
 	 */
@@ -88,10 +81,10 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
 	
 	/**
 	 * 特定のカテゴリに所属する未削除の商品を売れ筋順に取得
-	 * 
-	 * @param categoryId カテゴリID
+	 * * @param categoryId カテゴリID
+	 * @param deleteFlag 削除フラグ
 	 * @return 商品エンティティのリスト
 	 */
-	@Query("SELECT i FROM Item i LEFT JOIN OrderItem oi ON oi.item = i WHERE i.category.id = :categoryId GROUP BY i.id, i.name, i.price, i.description, i.image, i.stock, i.deleteFlag, i.insertDate, i.category.id ORDER BY SUM(oi.quantity) DESC NULLS LAST")
-	List<Item> findPopularByCategory(@Param("categoryId") Integer categoryId);
+	@Query("SELECT i FROM Item i LEFT JOIN OrderItem oi ON oi.item = i WHERE i.deleteFlag = :deleteFlag AND i.category.id = :categoryId GROUP BY i.id, i.name, i.price, i.description, i.image, i.stock, i.deleteFlag, i.insertDate, i.category.id ORDER BY COALESCE(SUM(oi.quantity), 0) DESC, i.id DESC")
+	List<Item> findPopularByCategory(@Param("categoryId") Integer categoryId, @Param("deleteFlag") int deleteFlag);
 }

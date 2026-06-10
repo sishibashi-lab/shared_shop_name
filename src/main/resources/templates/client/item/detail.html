@@ -8,41 +8,126 @@
 </head>
 
 <body class="user">
+	<div class="detail_layout1">
+		<h2 th:class="title" th:text="#{item}+#{title.detail}"></h2>
 
-	<h2 th:class="title" th:text="#{item}+#{title.detail}"></h2>
-
-	<div class="info_form_area" th:object="${item}">
-		<div class="item_detail_area">
-			<div class="item_image_area">
-				<img th:if="*{image != null}" th:src="@{/images/{image}(image=*{image})}"></img>
-				<img th:if="*{image == null}" th:src="@{/images/common/no_image.jpg}"></img>
+		<div class="info_form_area" th:object="${item}">
+			<div class="item_detail_area">
+				<div class="item_image_area">
+					<img th:if="*{image != null}" th:src="@{/images/{image}(image=*{image})}"></img>
+					<img th:if="*{image == null}" th:src="@{/images/common/no_image.jpg}"></img>
+				</div>
+				<dl class="item_detail_list">
+					<dt>[[#{data.item.name}]]</dt>
+					<dd th:text="*{name}"></dd>
+					<dt>[[#{data.item.price}]]</dt>
+					<dd th:text="*{price}"></dd>
+					<dt>[[#{data.item.stock}]]</dt>
+					<dd th:if="*{stock > 5}" th:text="#{data.in.stock}"></dd>
+					<dd th:if="*{stock >= 1 and 5 >= stock }" th:text="*{stock}"></dd>
+					<dd th:if="*{stock == 0}" th:text="#{data.out.of.stock}"></dd>
+					<dt>[[#{data.category}]]</dt>
+					<dd th:text="*{categoryName}"></dd>
+					<dt>[[#{data.description}]]</dt>
+					<dd th:text="*{description}"></dd>
+				</dl>
 			</div>
-			<dl class="item_detail_list">
-				<dt>[[#{data.item.name}]]</dt>
-				<dd th:text="*{name}"></dd>
-				<dt>[[#{data.item.price}]]</dt>
-				<dd th:text="*{price}"></dd>
-				<dt>[[#{data.item.stock}]]</dt>
-				<dd th:if="*{stock > 5}" th:text="#{data.in.stock}"></dd>
-				<dd th:if="*{stock >= 1 and 5 >= stock }" th:text="*{stock}"></dd>
-				<dd th:if="*{stock == 0}" th:text="#{data.out.of.stock}"></dd>
-				<dt>[[#{data.category}]]</dt>
-				<dd th:text="*{categoryName}"></dd>
-				<dt>[[#{data.description}]]</dt>
-				<dd th:text="*{description}"></dd>
-			</dl>
+			<div class="detail_button_area">
+				<form th:action="@{/client/basket/add}" method="post" class="user_info_form" th:if="*{stock > 0}">
+					<input type="hidden" th:field="*{id}" />
+					<input type="submit" value="買い物かごに入れる" class="send_button" />
+				</form>
+				<form th:action="@{/client/item/list/1}" method="post">
+					<input type="submit" value="戻る" class="back_button" />
+				</form>
+			</div>
 		</div>
-		<div class="detail_button_area">
-			<form th:action="@{/client/basket/add}" method="post" class="user_info_form" th:if="*{stock > 0}">
-				<input type="hidden" th:field="*{id}" />
-				<input type="submit" value="買い物かごに入れる" class="send_button" />
-			</form>
-			<form th:action="@{/client/item/list/1}" method="post">
-				<input type="submit" value="戻る" class="back_button" />
-			</form>
-		</div>
+		<button class="review-button">レビュー投稿</button>
+
+		<section class="review-section" aria-labelledby="review-heading">
+			<div class="review-section__header">
+				<div>
+					<p class="eyebrow">Customer Reviews</p>
+					<h2 id="review-heading">レビュー</h2>
+					<p>この商品を使った感想を確認できます。</p>
+				</div>
+				<div class="review-score-card" aria-label="レビュー集計">
+					<span class="review-score-card__label">Average</span>
+					<strong th:text="${reviewAverage != null ? reviewAverage : '0.0'}">0.0</strong>
+					<span class="review-stars" aria-hidden="true">★★★★★</span>
+					<small th:text="${reviewCount != null ? reviewCount + '件のレビュー' : '0件のレビュー'}">0件のレビュー</small>
+				</div>
+			</div>
+			<div class="review-layout">
+				<div class="review-list-panel">
+					<div class="review-list" th:if="${reviewList != null and !#lists.isEmpty(reviewList)}">
+						<article class="review-card" th:each="review : ${reviewList}">
+							<div class="review-card__top">
+								<div>
+									<p class="review-card__user" th:text="${review.user.name}">投稿者</p>
+									<time th:text="${review.reviewDate}">投稿日時</time>
+								</div>
+								<div class="review-card__rating" aria-label="星評価">
+									<span th:each="star : ${#numbers.sequence(1, 5)}"
+										th:classappend="${review.rate != null and star <= review.rate} ? ' is-active' : ''">★</span>
+								</div>
+							</div>
+							<h3
+								th:text="${review.title != null and !#strings.isEmpty(review.title) ? review.title : 'タイトルなし'}">
+								レビュータイトル</h3>
+							<p class="review-card__comment" th:text="${review.reviewComment}">レビュー本文</p>
+						</article>
+					</div>
+
+					<div class="review-empty-state" th:if="${reviewList == null or #lists.isEmpty(reviewList)}">
+						<span>☆</span>
+						<h3>レビューはまだありません</h3>
+						<p>Controller側でレビュー取得処理を実装すると、このエリアにレビューカードが表示されます。</p>
+					</div>
+				</div>
+
+
+			</div>
+		</section>
 	</div>
 
+	<div class="detail_layout2">
+		<aside class="review-form-panel" aria-label="レビュー投稿フォーム">
+			<p class="eyebrow">Write a Review</p>
+			<h2>レビューを書く</h2>
+			<p>星評価・タイトル・本文を入力して、この商品の感想を投稿できます。</p>
+
+			<form class="review-form" th:action="@{/review/add}" method="post">
+				<input type="hidden" name="itemId" th:value="${item.id}">
+
+				<fieldset class="review-rating-field">
+					<legend>星評価 <span>必須</span></legend>
+					<div class="review-rating-options">
+						<label><input type="radio" name="rate" value="5" required><span>★★★★★</span></label>
+						<label><input type="radio" name="rate" value="4"><span>★★★★☆</span></label>
+						<label><input type="radio" name="rate" value="3"><span>★★★☆☆</span></label>
+						<label><input type="radio" name="rate" value="2"><span>★★☆☆☆</span></label>
+						<label><input type="radio" name="rate" value="1"><span>★☆☆☆☆</span></label>
+					</div>
+				</fieldset>
+
+				<label class="review-form__field">
+					<span>レビュータイトル <small>任意 / 100文字以内</small></span>
+					<input type="text" name="title" maxlength="100" placeholder="例：色味が上品で使いやすい">
+				</label>
+
+				<label class="review-form__field">
+					<span>レビュー本文 <small>必須 / 1000文字以内</small></span>
+					<textarea name="reviewComment" maxlength="1000" required
+						placeholder="使用感や気に入った点を入力してください"></textarea>
+				</label>
+
+				<button class="button review-form__button" type="submit">レビューを投稿する</button>
+			</form>
+		</aside>
+	</div>
+	
+	<script th:src="@{/js/review.js}"></script>
 </body>
 
 </html>
