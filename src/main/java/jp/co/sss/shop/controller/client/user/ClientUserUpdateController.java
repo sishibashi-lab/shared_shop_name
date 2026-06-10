@@ -10,6 +10,7 @@ import jp.co.sss.shop.form.UserForm;
 public class ClientUserUpdateController {
 	
 	//処理1(変更ボタン 押下時処理) 、(確認画面-戻るボタン 押下時処理)
+	
 
 	@RequestMapping(path = "/client/user/update/input", method = RequestMethod.POST)
 	public String userUpdateInput() {
