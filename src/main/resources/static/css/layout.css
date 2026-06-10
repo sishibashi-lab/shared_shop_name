@@ -12,6 +12,8 @@
 html {
 	min-height: 100%;
 	position: relative;
+	/* Chromeのブラウザズーム80%相当で全ページを統一 */
+	zoom: 0.8;
 }
 
 /* スキルアップテクニック1-2
@@ -22,6 +24,7 @@ body {
 	margin: 0 0 30px;
 	padding: 0;
 	width: 100%;
+	overflow-x: hidden;
 }
 
 h2,
@@ -62,6 +65,7 @@ li {
 
 .container {
 	width: 90%;
+
 	margin: 0 auto;
 	justify-content: space-between;
 }

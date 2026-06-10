@@ -45,19 +45,31 @@
 						</div>
 
 						<article class="favorite_editorial_row" th:each="favoriteItem : ${favoriteItems}">
-							<form class="favorite_editorial_remove_icon" th:action="@{/favorite/delete}" method="post" aria-label="お気に入りから削除">
+							<form class="favorite_editorial_remove_icon" th:action="@{/favorite/delete}" method="post"
+								aria-label="お気に入りから削除">
 								<input type="hidden" name="id" th:value="${favoriteItem.item.id}" />
-								<button type="submit">×</button>
+								<button type="submit" aria-label="お気に入りから削除">×</button>
 							</form>
 
-							<a class="favorite_editorial_item" th:href="@{/client/item/detail/{id}(id=${favoriteItem.item.id})}">
+							<a class="favorite_editorial_item"
+								th:href="@{/client/item/detail/{id}(id=${favoriteItem.item.id})}">
 								<span class="favorite_editorial_thumb">
-									<img th:src="@{/images/{image}(image=${favoriteItem.item.image})}" th:if="${favoriteItem.item.image != null and !#strings.isEmpty(favoriteItem.item.image)}" th:alt="${favoriteItem.item.name}" onerror="this.onerror=null;this.src='/shared_shop/images/common/no_image.jpg';" />
-									<img th:src="@{/images/common/no_image.jpg}" th:if="${favoriteItem.item.image == null or #strings.isEmpty(favoriteItem.item.image)}" th:alt="${favoriteItem.item.name}" />
+									<img th:src="@{/images/{image}(image=${favoriteItem.item.image})}"
+										th:if="${favoriteItem.item.image != null and !#strings.isEmpty(favoriteItem.item.image)}"
+										th:alt="${favoriteItem.item.name}"
+										onerror="this.onerror=null;this.src='/shared_shop/images/common/no_image.jpg';" />
+									<img th:src="@{/images/common/no_image.jpg}"
+										th:if="${favoriteItem.item.image == null or #strings.isEmpty(favoriteItem.item.image)}"
+										th:alt="${favoriteItem.item.name}" />
 								</span>
 								<span class="favorite_editorial_name_area">
-									<span class="favorite_editorial_name" th:text="${favoriteItem.item.name}">Item name</span>
-									<span class="favorite_editorial_meta" th:text="${favoriteItem.item.category != null ? favoriteItem.item.category.name : 'CATEGORY'}">CATEGORY</span>
+									<span class="favorite_editorial_name" th:text="${favoriteItem.item.name}">Item
+										name</span>
+									<span class="favorite_editorial_meta"
+										th:text="${favoriteItem.item.category != null ? favoriteItem.item.category.name : 'CATEGORY'}">CATEGORY</span>
+									<span class="favorite_editorial_submeta"
+										th:if="${favoriteItem.item.description != null and !#strings.isEmpty(favoriteItem.item.description)}"
+										th:text="${favoriteItem.item.description}">Item description</span>
 								</span>
 							</a>
 
@@ -86,5 +98,6 @@
 		</div>
 	</section>
 </body>
+
 
 </html>

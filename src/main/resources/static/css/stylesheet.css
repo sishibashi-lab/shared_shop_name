@@ -1454,4 +1454,16 @@ p.link_center {
 		background: #111;
 		color: #fff;
 	}
+
+
+.category_search_form {
+	display: flex;
+	gap: 12px;
+	align-items: center;
+}
+
+.category_search_form select {
+	min-width: 220px;
+	padding: 8px;
+
 }
