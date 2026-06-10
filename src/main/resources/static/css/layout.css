@@ -21,6 +21,7 @@ html {
 body {
 	margin: 0 0 30px;
 	padding: 0;
+	width: 100%;
 }
 
 h2,
@@ -128,11 +129,11 @@ header {
 .search_area .title,
 .main .title
  {
-	background-color: #3d98bf;
+	background-color: #B9904F;
 	margin: 0;
 	padding: 5px 8px;
 	color: #fff;
-	text-shadow: 1px 1px 1px #12526d;
+	text-shadow: 1px 1px 1px #7F6131;
 }
 
 
