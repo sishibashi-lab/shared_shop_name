@@ -87,4 +87,8 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
 	 */
 	@Query("SELECT i FROM Item i LEFT JOIN OrderItem oi ON oi.item = i WHERE i.deleteFlag = :deleteFlag AND i.category.id = :categoryId GROUP BY i.id, i.name, i.price, i.description, i.image, i.stock, i.deleteFlag, i.insertDate, i.category.id ORDER BY COALESCE(SUM(oi.quantity), 0) DESC, i.id DESC")
 	List<Item> findPopularByCategory(@Param("categoryId") Integer categoryId, @Param("deleteFlag") int deleteFlag);
+	
+	
+	//おすすめ
+    List<Item> findAllByCategoryName(String category);
 }

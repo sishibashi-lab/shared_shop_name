@@ -26,23 +26,88 @@
 					<img th:src="@{/images/common/no_image.jpg}" th:if="${item.image == null}" />
 				</a>
 				<div class="product-card__body">
-					<h2 th:text="${item.name}">商品名</h2>
+					<a th:href="@{/client/item/detail/}+${item.id}" th:text="${item.name}">商品名</a>
 					<p class="product-card__description" th:text="${item.description}">説明文</p>
 					<div class="product-card__meta">
 						<span th:text="${item.categoryName}">CATEGORY</span>
 						<strong th:text="${#numbers.formatInteger(item.price, 3, 'COMMA')} + '円'">0円</strong>
-					</div>
-					<div class="product-card__actions">
-						<form th:action="@{/index/favorite/regist/{id}(id=${item.id})}" method="post">
-							<input type="hidden" name="id" th:value="${item.id}">
-							<button class="button button--heart" type="submit">♡ お気に入り</button>
-						</form>
 					</div>
 				</div>
 			</div>
 		</th:block>
 	</div>
 
+
+
+	<!--	おすすめ商品-->
+	<div class="item_list" th:if="${loginUser != null}">
+		<div>
+			<h2 class="title">おすすめ商品
+			</h2>
+		</div>
+		<th:block th:each="item, status: ${recommend}" th:if="${status.count le 10}">
+			<!--/* 1件分の商品情報 */-->
+			<div class="item">
+				<a th:href="@{/client/item/detail/}+${item.id}">
+					<img th:src="@{/images/{image}(image=${item.image})}" th:if="${item.image != null}" />
+					<img th:src="@{/images/common/no_image.jpg}" th:if="${item.image == null}" />
+				</a>
+				<div class="product-card__body">
+					<a th:href="@{/client/item/detail/}+${item.id}" th:text="${item.name}">商品名</a>
+					<p class="product-card__description" th:text="${item.description}">説明文</p>
+					<div class="product-card__meta">
+						<span th:text="${item.category.name}">CATEGORY</span>
+						<strong th:text="${#numbers.formatInteger(item.price, 3, 'COMMA')} + '円'">0円</strong>
+					</div>
+
+				</div>
+			</div>
+	</div>
+	</th:block>
+	</div>
+
+	<div class="item_list" th:if="${loginUser != null}">
+		<div>
+			<h2 class="title">閲覧履歴
+			</h2>
+		</div>
+		<th:block th:each="item, status: ${viewHistory}" th:if="${status.count le 10}">
+			<!--/* 1件分の商品情報 */-->
+			<div class="item">
+				<a th:href="@{/client/item/detail/}+${item.item.id}">
+					<img th:src="@{/images/{image}(image=${item.item.image})}" th:if="${item.item.image != null}" />
+					<img th:src="@{/images/common/no_image.jpg}" th:if="${item.item.image == null}" />
+				</a>
+				<div class="product-card__body">
+					<a th:href="@{/client/item/detail/}+${item.item.id}" th:text="${item.item.name}">商品名</a>
+					<p class="product-card__description" th:text="${item.item.description}">説明文</p>
+					<div class="product-card__meta">
+						<span th:text="${item.item.categoryName}">CATEGORY</span>
+						<strong th:text="${#numbers.formatInteger(item.item.price, 3, 'COMMA')} + '円'">0円</strong>
+					</div>
+
+					<!-- アクションエリアを1つの親divに集約し、th:ifを内側のformに寄せることで安全に処理します -->
+					<div class="product-card__actions">
+						<!-- お気に入り登録（未登録の場合のみ表示） -->
+						<form th:if="${!isFavoView[status.index]}"
+							th:action="@{/index/favorite/regist/{id}(id=${item.item.id})}" method="post"
+							class="favo-add">
+							<input type="hidden" name="id" th:value="${item.item.id}">
+							<button class="button button--heart" type="submit">♡ お気に入りに追加</button>
+						</form>
+
+						<!-- お気に入り解除（登録済の場合のみ表示） -->
+						<form th:if="${isFavoView[status.index]}"
+							th:action="@{/index/favorite/delete/{id}(id=${item.item.id})}" method="post"
+							class="favo-del">
+							<input type="hidden" name="id" th:value="${item.item.id}">
+							<button class="button button--heart-active" type="submit">♥ お気に入りを解除</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</th:block>
+	</div>
 </body>
 
 </html>
