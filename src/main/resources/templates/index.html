@@ -33,7 +33,7 @@
 						<strong th:text="${#numbers.formatInteger(item.price, 3, 'COMMA')} + '円'">0円</strong>
 					</div>
 					<div class="product-card__actions">
-						<form th:action="@{/list/favorite/regist/{id}(id=${item.id})}" method="post">
+						<form th:action="@{/index/favorite/regist/{id}(id=${item.id})}" method="post">
 							<input type="hidden" name="id" th:value="${item.id}">
 							<button class="button button--heart" type="submit">♡ お気に入り</button>
 						</form>
