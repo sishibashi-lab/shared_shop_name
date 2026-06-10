@@ -188,7 +188,7 @@ p {
 
 /* ---- 商品情報 ---- */
 .item {
-	width: 48.5%;
+	width: 30.5%;
 	height: 200px;
 	border: 1px solid gray;
 	border-radius: 6px;
@@ -197,16 +197,22 @@ p {
 	margin-top: 20px;
 	position: relative;
 	overflow: hidden;
-}
+	min-width: 170px;
+	margin-right: 2%}
 
 .main>.item_list{
 	display: flex;
 	flex-wrap: wrap;
 }
 
-.item:nth-of-type(odd) {
-	margin-right: 3%;
+@media (max-width: 760px) {
+	.item {
+		width: 48%;
+	}
 }
+/*.item:nth-of-type(odd) {*/
+/*	margin-right: 3%;*/
+/*}*/
 
 .item .item_name {
 	padding: 5px 10px;
@@ -626,6 +632,24 @@ select {
 .item_detail_area{
 	display: flex;
 	justify-content: space-between;
+}
+.detail_layout1{
+	z-index: 0;
+}
+.detail_layout2{
+	visibility: hidden;
+	opacity: 0;
+	position: absolute;
+	z-index: 1;
+	width: 100vh;
+	height: 100vh;
+	top: 0;
+	left: 0;
+	
+}
+.detail_layout2.open{
+	visibility: visible;
+	opacity: 1;
 }
 /* ---- 注文一覧 ---- */
 .list_table.order{
