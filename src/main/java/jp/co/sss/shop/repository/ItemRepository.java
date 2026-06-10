@@ -109,5 +109,6 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
 	 */
 	@Query("SELECT i FROM Item i WHERE i.deleteFlag = :deleteFlag AND i.name LIKE :keyword ORDER BY i.insertDate DESC, i.id DESC")
 	List<Item> findListByNewestAndKeyword(@Param("keyword") String keyword, @Param("deleteFlag") int deleteFlag);
-
+	
+	List<Item>findAllByCategoryName(String category);
 }

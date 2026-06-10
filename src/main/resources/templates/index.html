@@ -82,7 +82,7 @@
 					<a th:href="@{/client/item/detail/}+${item.item.id}" th:text="${item.item.name}">商品名</a>
 					<p class="product-card__description" th:text="${item.item.description}">説明文</p>
 					<div class="product-card__meta">
-						<span th:text="${item.item.categoryName}">CATEGORY</span>
+						<span th:text="${item.item.name}">CATEGORY</span>
 						<strong th:text="${#numbers.formatInteger(item.item.price, 3, 'COMMA')} + '円'">0円</strong>
 					</div>
 
