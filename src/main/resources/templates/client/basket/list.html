@@ -87,6 +87,7 @@
 							<p class="basket_editorial_subtotal" th:text="${'¥' + #numbers.formatInteger(item.subtotal, 1, 'COMMA')}">¥0</p>
 
 							<div class="basket_editorial_actions">
+								<a th:href="@{/client/item/detail/{id}(id=${item.id})}">VIEW DETAILS</a>
 								<button type="button">REMOVE</button>
 							</div>
 						</article>
