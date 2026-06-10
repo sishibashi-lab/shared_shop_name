@@ -12,6 +12,8 @@
 html {
 	min-height: 100%;
 	position: relative;
+	/* Chromeのブラウザズーム80%相当で全ページを統一 */
+	zoom: 0.8;
 }
 
 /* スキルアップテクニック1-2
@@ -21,7 +23,8 @@ html {
 body {
 	margin: 0 0 30px;
 	padding: 0;
-	width: 100%;
+
+	overflow-x: hidden;
 }
 
 h2,
