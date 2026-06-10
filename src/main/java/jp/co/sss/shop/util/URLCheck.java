@@ -15,6 +15,7 @@ public class URLCheck {
 	public static boolean isURLForStaticFile(String requestURL) {
 		boolean isCheckURLOK = false;
 		if (requestURL.indexOf(Constant.CSS_FOLDER) != -1
+				|| requestURL.indexOf("/js/") != -1
 				|| requestURL.indexOf(Constant.IMAGE_FOLDER) != -1) {
 			// URLのリクエスト先がフィルタ実行対象である場合
 			isCheckURLOK = true;
