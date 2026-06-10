@@ -188,7 +188,7 @@ p {
 
 /* ---- 商品情報 ---- */
 .item {
-	width: 48.5%;
+	width: 30.5%;
 	height: 200px;
 	border: 1px solid gray;
 	border-radius: 6px;
@@ -197,16 +197,22 @@ p {
 	margin-top: 20px;
 	position: relative;
 	overflow: hidden;
-}
+	min-width: 170px;
+	margin-right: 2%}
 
 .main>.item_list{
 	display: flex;
 	flex-wrap: wrap;
 }
 
-.item:nth-of-type(odd) {
-	margin-right: 3%;
+@media (max-width: 760px) {
+	.item {
+		width: 48%;
+	}
 }
+/*.item:nth-of-type(odd) {*/
+/*	margin-right: 3%;*/
+/*}*/
 
 .item .item_name {
 	padding: 5px 10px;
