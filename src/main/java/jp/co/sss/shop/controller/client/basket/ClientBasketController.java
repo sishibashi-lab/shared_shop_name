@@ -1,7 +1,9 @@
 package jp.co.sss.shop.controller.client.basket;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,6 +16,7 @@ import jakarta.servlet.http.HttpSession;
 import jp.co.sss.shop.bean.BasketBean;
 import jp.co.sss.shop.entity.Item;
 import jp.co.sss.shop.repository.ItemRepository;
+import jp.co.sss.shop.util.Constant;
 
 /**
  * 買い物かご画面のコントローラークラス
@@ -41,6 +44,11 @@ public class ClientBasketController {
 		// 現在のかごの中身を取得
 		List<BasketBean> basketList = (List<BasketBean>) session.getAttribute("basketBeans");
 		
+		// 画面表示用の商品リスト
+		List<Map<String, Object>> basketItems = new ArrayList<Map<String, Object>>();
+		int basketTotal = 0;
+		int basketCount = 0;
+		
 		// かごがあり、中身もある場合の処理
 		if (basketList != null) {
             if (basketList.isEmpty() == false) {
@@ -55,13 +63,32 @@ public class ClientBasketController {
                 for (BasketBean basketItem : basketList) {
                 	
                 	// チェックしてる商品のIDから商品の情報を取得
-                    Item item = itemRepository.getReferenceById(basketItem.getId());
+                    Item item = itemRepository.findByIdAndDeleteFlag(basketItem.getId(), Constant.NOT_DELETED);
                     
                     // 商品が存在している場合
                     if (item != null) {
                     	
                     	// 在庫数の最新情報を入れる
                         basketItem.setStock(item.getStock());
+                        
+                        Integer price = item.getPrice() != null ? item.getPrice() : 0;
+                        Integer orderNum = basketItem.getOrderNum() != null ? basketItem.getOrderNum() : 0;
+                        Integer subtotal = price * orderNum;
+                        
+                        Map<String, Object> viewItem = new HashMap<String, Object>();
+                        viewItem.put("id", item.getId());
+                        viewItem.put("name", item.getName());
+                        viewItem.put("image", item.getImage());
+                        viewItem.put("categoryName", item.getCategory() != null ? item.getCategory().getName() : "");
+                        viewItem.put("description", item.getDescription());
+                        viewItem.put("price", price);
+                        viewItem.put("orderNum", orderNum);
+                        viewItem.put("subtotal", subtotal);
+                        viewItem.put("stock", item.getStock());
+                        basketItems.add(viewItem);
+                        
+                        basketTotal += subtotal;
+                        basketCount += orderNum;
                         
                         // 今チェックしている商品の在庫が0の場合、在庫切れリストに商品名を入れる
                         if (item.getStock() == 0) {
@@ -85,6 +112,11 @@ public class ClientBasketController {
                 }
             }
         }
+		
+		model.addAttribute("basketItems", basketItems);
+		model.addAttribute("basketTotal", basketTotal);
+		model.addAttribute("basketCount", basketCount);
+		
 		// 買い物かご画面へ遷移
 		return "client/basket/list";
 	}

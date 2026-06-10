@@ -1,0 +1,350 @@
+/* ---- ログイン画面に合わせた新規会員登録画面 ---- */
+.auth_page {
+	width: 100%;
+	min-height: 520px;
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
+	padding: 8px 0 54px;
+	box-sizing: border-box;
+	border-top: 1px solid #b9a383;
+}
+
+.auth_panel {
+	width: min(760px, 100%);
+	margin: 0 auto;
+	padding: 48px 56px 46px;
+	background: rgba(255, 252, 246, 0.78);
+	border: 1px solid rgba(185, 163, 131, 0.58);
+	box-shadow: 0 22px 54px rgba(80, 56, 28, 0.08);
+	box-sizing: border-box;
+	position: relative;
+}
+
+.auth_panel::before,
+.auth_panel::after {
+	content: "";
+	position: absolute;
+	left: 50%;
+	width: 12px;
+	height: 12px;
+	background: #b9a383;
+	transform: translateX(-50%) rotate(45deg);
+}
+
+.auth_panel::before {
+	top: -7px;
+}
+
+.auth_panel::after {
+	bottom: -7px;
+}
+
+.auth_panel_register {
+	width: min(820px, 100%);
+}
+
+.auth_heading {
+	text-align: center;
+	margin-bottom: 32px;
+}
+
+.auth_kicker {
+	margin: 0 0 12px;
+	color: #b9a383;
+	font-size: 0.78rem;
+	letter-spacing: 0.28em;
+	line-height: 1;
+}
+
+.auth_title {
+	margin: 0;
+	color: #222;
+	font-size: 2rem;
+	font-weight: 400;
+	letter-spacing: 0.08em;
+	line-height: 1.35;
+	text-align: center;
+}
+
+.auth_description {
+	margin: 16px 0 0;
+	color: rgba(34, 34, 34, 0.68);
+	font-size: 0.98rem;
+	letter-spacing: 0.04em;
+	line-height: 1.8;
+	text-align: center;
+}
+
+.auth_form {
+	display: block;
+	width: 100%;
+}
+
+.auth_field_grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 20px 22px;
+}
+
+.auth_field {
+	display: block;
+	min-width: 0;
+}
+
+.auth_field_full {
+	grid-column: 1 / -1;
+}
+
+.auth_label,
+.auth_confirm_label {
+	display: block;
+	margin-bottom: 9px;
+	color: #5f4b30;
+	font-size: 0.88rem;
+	letter-spacing: 0.08em;
+}
+
+.auth_field input,
+.auth_field textarea {
+	width: 100%;
+	padding: 12px 14px;
+	border: 1px solid rgba(34, 34, 34, 0.42);
+	border-radius: 0;
+	background: rgba(255, 255, 255, 0.72);
+	box-sizing: border-box;
+	color: #222;
+	font-size: 1rem;
+	letter-spacing: 0.03em;
+	transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.auth_field textarea {
+	resize: vertical;
+	min-height: 112px;
+	line-height: 1.7;
+}
+
+.auth_field input::placeholder,
+.auth_field textarea::placeholder {
+	color: rgba(34, 34, 34, 0.34);
+}
+
+.auth_field input:focus,
+.auth_field textarea:focus {
+	outline: none;
+	border-color: #b9a383;
+	background: rgba(255, 255, 255, 0.95);
+	box-shadow: 0 0 0 3px rgba(185, 163, 131, 0.16);
+}
+
+.auth_note {
+	display: block;
+	margin-top: 7px;
+	color: rgba(34, 34, 34, 0.52);
+	font-size: 0.78rem;
+	line-height: 1.55;
+}
+
+.auth_action_row {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 18px;
+	margin-top: 34px;
+	flex-wrap: wrap;
+}
+
+.auth_action_row_confirm {
+	justify-content: center;
+}
+
+.auth_action_row_center {
+	margin-top: 30px;
+}
+
+.auth_inline_form {
+	display: inline-block;
+}
+
+.auth_primary_button,
+.auth_secondary_button,
+.auth_primary_link {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 180px;
+	height: 46px;
+	padding: 0 28px;
+	border: 1px solid #222;
+	box-sizing: border-box;
+	font-size: 0.95rem;
+	letter-spacing: 0.12em;
+	text-decoration: none;
+	cursor: pointer;
+	transition: background-color 0.22s ease, border-color 0.22s ease, color 0.22s ease, transform 0.22s ease, box-shadow 0.22s ease;
+}
+
+.auth_primary_button,
+.auth_primary_link {
+	background: #222;
+	color: #fffaf2;
+}
+
+.auth_secondary_button {
+	background: transparent;
+	color: #222;
+}
+
+.auth_primary_button:hover,
+.auth_primary_button:focus-visible,
+.auth_primary_link:hover,
+.auth_primary_link:focus-visible {
+	background: #7e5f2d;
+	border-color: #7e5f2d;
+	color: #fffaf2;
+	transform: translateY(-2px);
+	box-shadow: 0 12px 24px rgba(126, 95, 45, 0.14);
+	outline: none;
+}
+
+.auth_secondary_button:hover,
+.auth_secondary_button:focus-visible {
+	background: rgba(185, 163, 131, 0.14);
+	border-color: #b9a383;
+	color: #7e5f2d;
+	transform: translateY(-2px);
+	box-shadow: 0 12px 24px rgba(126, 95, 45, 0.08);
+	outline: none;
+}
+
+.auth_text_link,
+.auth_text_link:visited {
+	position: relative;
+	color: #222;
+	font-size: 0.92rem;
+	letter-spacing: 0.06em;
+	text-decoration: none;
+}
+
+.auth_text_link::after {
+	content: "";
+	position: absolute;
+	left: 50%;
+	bottom: -7px;
+	width: 0;
+	height: 2px;
+	background: #b9a383;
+	transform: translateX(-50%);
+	transition: width 0.22s ease;
+}
+
+.auth_text_link:hover::after,
+.auth_text_link:focus-visible::after {
+	width: 100%;
+}
+
+.auth_text_link:hover,
+.auth_text_link:focus-visible {
+	color: #7e5f2d;
+	outline: none;
+}
+
+.auth_error_list {
+	margin: 0 0 24px;
+	padding: 16px 18px 16px 34px;
+	background: rgba(196, 64, 42, 0.06);
+	border: 1px solid rgba(196, 64, 42, 0.22);
+	box-sizing: border-box;
+}
+
+.auth_error_list li {
+	color: #b43621;
+	font-size: 0.88rem;
+	line-height: 1.65;
+	list-style: disc;
+}
+
+.auth_confirm_list {
+	margin: 0;
+	padding: 0;
+	border-top: 1px solid rgba(185, 163, 131, 0.28);
+}
+
+.auth_confirm_list li {
+	display: grid;
+	grid-template-columns: minmax(150px, 0.34fr) 1fr;
+	gap: 20px;
+	padding: 18px 0;
+	border-bottom: 1px solid rgba(185, 163, 131, 0.28);
+	align-items: start;
+}
+
+.auth_confirm_label {
+	margin-bottom: 0;
+}
+
+.auth_confirm_value {
+	color: #222;
+	font-size: 1rem;
+	letter-spacing: 0.04em;
+	line-height: 1.7;
+	word-break: break-word;
+}
+
+.auth_panel_complete {
+	width: min(620px, 100%);
+	text-align: center;
+}
+
+.auth_complete_mark {
+	width: 54px;
+	height: 54px;
+	margin: 0 auto 22px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border: 1px solid #b9a383;
+	border-radius: 50%;
+	color: #7e5f2d;
+	font-size: 1.6rem;
+	line-height: 1;
+}
+
+@media (max-width: 760px) {
+	.auth_page {
+		padding: 0 0 42px;
+	}
+
+	.auth_panel,
+	.auth_panel_register,
+	.auth_panel_complete {
+		width: 100%;
+		padding: 38px 24px 40px;
+	}
+
+	.auth_title {
+		font-size: 1.62rem;
+	}
+
+	.auth_field_grid {
+		grid-template-columns: 1fr;
+		gap: 18px;
+	}
+
+	.auth_confirm_list li {
+		grid-template-columns: 1fr;
+		gap: 8px;
+	}
+
+	.auth_primary_button,
+	.auth_secondary_button,
+	.auth_primary_link {
+		width: 100%;
+		min-width: 0;
+	}
+
+	.auth_inline_form {
+		width: 100%;
+	}
+}

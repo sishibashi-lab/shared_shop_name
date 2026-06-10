@@ -7,61 +7,120 @@
 	<meta charset="UTF-8" />
 </head>
 
-<body class="user shopping_basket">
-	<h2 th:class="title" th:text="#{basket}"></h2>
+<body>
+	<section class="basket_editorial_area">
+		<div class="basket_editorial_shell">
+			<div class="basket_editorial_layout">
+				<aside class="basket_editorial_side" aria-label="cart summary">
+					<div class="basket_editorial_title_block">
+						<h1><span>MY</span><span>CART</span></h1>
+						<p>SELECTED PIECES FOR CHECKOUT</p>
+					</div>
 
-	<th:block th:if="${itemNameListLessThan != null || itemNameListZero != null}">
-		<br />
-				<!--/* 在庫不足商品 */-->
-		<ul class="error_list_no_mark" th:if="${itemNameListLessThan != null}">
-			<li th:each="err : ${itemNameListLessThan}" th:text="#{msg.basket.stock.short(${err})}"></li>
+					<div class="basket_editorial_note">
+						<p>買い物かごに入れた商品を、注文前に確認できます。</p>
+						<p>Review your items before checkout.</p>
+					</div>
 
-		</ul>
-				<!--/* 在庫なし商品 */-->
-		<ul class="error_list_no_mark" th:if="${itemNameListZero != null}">
-			<li th:each="err : ${itemNameListZero}" th:text="#{msg.basket.stock.none(${err})}"></li>
-		</ul>
-		<br />
-	</th:block>
+					<div class="basket_editorial_count">
+						<strong><span th:text="${basketCount}">0</span> ITEMS</strong>
+					</div>
+				</aside>
 
-	<div th:if="${session.basketBeans == null}">
-		<!--/* 買い物かごが空のとき */-->
-		<p th:text="#{msg.basket.list.none}"></p>
-	</div>
+				<div class="basket_editorial_content">
+					<th:block th:if="${itemNameListLessThan != null || itemNameListZero != null}">
+						<div class="basket_stock_notice">
+							<p>STOCK NOTICE</p>
+							<ul th:if="${itemNameListLessThan != null}">
+								<li th:each="err : ${itemNameListLessThan}" th:text="#{msg.basket.stock.short(${err})}"></li>
+							</ul>
+							<ul th:if="${itemNameListZero != null}">
+								<li th:each="err : ${itemNameListZero}" th:text="#{msg.basket.stock.none(${err})}"></li>
+							</ul>
+						</div>
+					</th:block>
 
-	<th:block th:if="${session.basketBeans != null}">
-		<table class="list_table basket">
-			<tr>
-				<th>[[#{data.basket.item.name}]]</th>
-				<th>[[#{data.basket.count}]]</th>
-				<th>[[#{data.basket.operate}]]</th>
-				<th>[[#{data.basket.stock.status}]]</th>
-			</tr>
-			<tr th:each="item, status: ${session.basketBeans}">
-				<td><a th:href="@{/client/item/detail/{id}(id=${item.id})}" th:text="${item.name}"></a></td>
-				<td th:text="${item.orderNum}"></td>
-				<td>
-					<form th:action="@{/client/basket/delete}" method="post">
-						<input type="hidden" name="id" th:value="${item.id}" /> <input type="submit" value="削除"
-							class="delete" />
-					</form>
-				</td>
-				<td th:if="${item.stock == 0}" th:text="#{data.out.of.stock}"></td>
-				<td th:if="${item.stock > 5}" th:text="#{data.in.stock}"></td>
-				<td th:if="${item.stock >= 1 and 5 >= item.stock }" th:text="${item.stock}"></td>
-			</tr>
-		</table>
-		<div class="user_info_form_area shopping_button">
-			<!--/* 注文手続きフォーム */-->
-			<form th:action="@{/client/order/address/input}" method="post">
-				<input type="submit" value="ご注文のお手続き" />
-			</form>
-			<!--/* 買い物かごを空にするフォーム */-->
-			<form th:action="@{/client/basket/allDelete}" method="post">
-				<input type="submit" value="買い物かごを空にする" class="delete" />
-			</form>
+					<div class="basket_editorial_empty" th:if="${#lists.isEmpty(basketItems)}">
+						<p>NO ITEMS IN CART</p>
+						<h2>買い物かごは空です</h2>
+						<span>気になるアクセサリーを探しに行きましょう。</span>
+						<a th:href="@{/client/item/list/1}">SHOP ITEMS</a>
+					</div>
+
+					<div class="basket_editorial_cart" th:unless="${#lists.isEmpty(basketItems)}">
+						<div class="basket_editorial_list_head" aria-hidden="true">
+							<span>ITEM</span>
+							<span>DETAILS</span>
+							<span>PRICE</span>
+							<span>QTY</span>
+							<span>SUBTOTAL</span>
+							<span>ACTION</span>
+						</div>
+
+						<article class="basket_editorial_row" th:each="item : ${basketItems}">
+							<a class="basket_editorial_item" th:href="@{/client/item/detail/{id}(id=${item.id})}">
+								<span class="basket_editorial_thumb">
+									<img th:src="@{/images/{image}(image=${item.image})}" th:if="${item.image != null and !#strings.isEmpty(item.image)}" th:alt="${item.name}" onerror="this.onerror=null;this.src='/shared_shop/images/common/no_image.jpg';" />
+									<img th:src="@{/images/common/no_image.jpg}" th:if="${item.image == null or #strings.isEmpty(item.image)}" th:alt="${item.name}" />
+								</span>
+							</a>
+
+							<div class="basket_editorial_detail">
+								<a class="basket_editorial_name" th:href="@{/client/item/detail/{id}(id=${item.id})}" th:text="${item.name}">Item name</a>
+								<span class="basket_editorial_category" th:text="${item.categoryName}">CATEGORY</span>
+								<small th:text="${item.description}">ITEM DETAILS</small>
+								<p class="basket_editorial_stock" th:classappend="${item.stock == 0} ? ' is_out' : (${item.stock <= 5} ? ' is_low' : '')">
+									<span th:if="${item.stock == 0}" th:text="#{data.out.of.stock}">在庫なし</span>
+									<span th:if="${item.stock > 5}" th:text="#{data.in.stock}">在庫あり</span>
+									<span th:if="${item.stock >= 1 and 5 >= item.stock}" th:text="'残り' + ${item.stock} + '点'">残り僅か</span>
+								</p>
+							</div>
+
+							<p class="basket_editorial_price" th:text="${'¥' + #numbers.formatInteger(item.price, 1, 'COMMA')}">¥0</p>
+
+							<div class="basket_qty_control" aria-label="数量">
+								<button type="button" class="basket_qty_button basket_qty_minus" aria-label="数量を減らす">−</button>
+								<span class="basket_qty_value" th:text="${item.orderNum}">1</span>
+								<button type="button" class="basket_qty_button basket_qty_plus" aria-label="数量を増やす">＋</button>
+							</div>
+
+							<p class="basket_editorial_subtotal" th:text="${'¥' + #numbers.formatInteger(item.subtotal, 1, 'COMMA')}">¥0</p>
+
+							<div class="basket_editorial_actions">
+								<a th:href="@{/client/item/detail/{id}(id=${item.id})}">VIEW DETAILS</a>
+								<button type="button">REMOVE</button>
+							</div>
+						</article>
+
+						<section class="basket_checkout_panel" aria-label="cart total">
+							<div class="basket_checkout_note">
+								<p>ORDER SUMMARY</p>
+								<span>選択中の商品合計を確認して、注文手続きへ進めます。</span>
+							</div>
+
+							<div class="basket_checkout_total_box">
+								<dl>
+									<div>
+										<dt>SUBTOTAL</dt>
+										<dd th:text="${'¥' + #numbers.formatInteger(basketTotal, 1, 'COMMA')}">¥0</dd>
+									</div>
+									<div class="basket_checkout_total">
+										<dt>TOTAL</dt>
+										<dd th:text="${'¥' + #numbers.formatInteger(basketTotal, 1, 'COMMA')}">¥0</dd>
+									</div>
+								</dl>
+
+								<form th:action="@{/client/order/address/input}" method="post">
+									<button type="submit">ご注文のお手続きへ</button>
+								</form>
+								<a th:href="@{/client/item/list/1}">買い物を続ける</a>
+							</div>
+						</section>
+					</div>
+				</div>
+			</div>
 		</div>
-	</th:block>
+	</section>
 </body>
 
 </html>

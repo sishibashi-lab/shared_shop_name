@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-	th:fragment="layout(title,body)">
+	th:fragment="layout(title,body,pageCss)">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="stylesheet" type="text/css" th:href="@{/css/layout.css}" />
+<link rel="stylesheet" type="text/css" th:href="@{/css/header.css}" />
 <link rel="stylesheet" type="text/css" th:href="@{/css/stylesheet.css}" />
+<link rel="stylesheet" type="text/css" th:if="${pageCss != null}" th:href="${pageCss}" />
 <title th:replace="${title}"></title>
 </head>
 <body th:classappend="${(session.user != null and (session.user.authority == 0 or session.user.authority == 1)) ? 'admin' : 'user' }">
