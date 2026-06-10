@@ -10,86 +10,78 @@
 <body>
 	<section class="favorite_editorial_area">
 		<div class="favorite_editorial_shell">
-			<div class="favorite_editorial_topbar" aria-label="wishlist page header">
-				<a th:href="@{/}" class="favorite_editorial_brand">SUPRO.</a>
-				<nav class="favorite_editorial_nav" aria-label="wishlist local navigation">
-					<a th:href="@{/}">HOME</a>
-					<a th:href="@{/client/item/list/1}">SHOP</a>
-					<a th:href="@{/client/basket/list}">CART</a>
-				</nav>
-			</div>
-
-			<div class="favorite_editorial_intro">
-				<div class="favorite_editorial_title_block">
-					<h1>MY WISHLIST</h1>
-					<p>SAVED PIECES FOR LATER</p>
-				</div>
-				<div class="favorite_editorial_note">
-					<p>お気に入りに保存した商品を、あとで比較・検討できます。</p>
-				</div>
-				<div class="favorite_editorial_count">
-					<strong th:text="${favoriteCount}">0</strong>
-					<span>ITEMS</span>
-				</div>
-			</div>
-
-			<div class="favorite_editorial_empty" th:if="${#lists.isEmpty(favoriteItems)}">
-				<p>NO SAVED ITEMS</p>
-				<h2>まだお気に入りはありません</h2>
-				<span>気になる商品を保存すると、このページで確認できます。</span>
-				<a th:href="@{/client/item/list/1}">SHOP ITEMS</a>
-			</div>
-
-			<div class="favorite_editorial_list" th:unless="${#lists.isEmpty(favoriteItems)}">
-				<div class="favorite_editorial_list_head" aria-hidden="true">
-					<span></span>
-					<span>ITEM</span>
-					<span>DETAILS</span>
-					<span>PRICE</span>
-					<span>ACTION</span>
-				</div>
-
-				<article class="favorite_editorial_row" th:each="favoriteItem : ${favoriteItems}">
-					<form class="favorite_editorial_remove_icon" th:action="@{/favorite/delete}" method="post" aria-label="お気に入りから削除">
-						<input type="hidden" name="id" th:value="${favoriteItem.item.id}" />
-						<button type="submit">×</button>
-					</form>
-
-					<a class="favorite_editorial_item" th:href="@{/client/item/detail/{id}(id=${favoriteItem.item.id})}">
-						<span class="favorite_editorial_thumb">
-							<img th:src="@{/images/{image}(image=${favoriteItem.item.image})}" th:if="${favoriteItem.item.image != null and !#strings.isEmpty(favoriteItem.item.image)}" th:alt="${favoriteItem.item.name}" />
-							<img th:src="@{/images/common/no_image.jpg}" th:if="${favoriteItem.item.image == null or #strings.isEmpty(favoriteItem.item.image)}" th:alt="${favoriteItem.item.name}" />
-						</span>
-						<span class="favorite_editorial_name" th:text="${favoriteItem.item.name}">Item name</span>
-					</a>
-
-					<div class="favorite_editorial_detail">
-						<span th:text="${favoriteItem.item.category != null ? favoriteItem.item.category.name : 'CATEGORY'}">CATEGORY</span>
-						<small th:text="${favoriteItem.item.description}">MATERIAL</small>
+			<div class="favorite_editorial_layout">
+				<aside class="favorite_editorial_side" aria-label="wishlist summary">
+					<div class="favorite_editorial_title_block">
+						<h1><span>MY</span><span>WISHLIST</span></h1>
+						<p>SAVED PIECES FOR LATER</p>
 					</div>
 
-					<p class="favorite_editorial_price" th:text="${favoriteItem.item.price != null ? '¥' + #numbers.formatInteger(favoriteItem.item.price, 1, 'COMMA') : '¥0'}">¥0</p>
-
-					<div class="favorite_editorial_actions">
-						<a th:href="@{/client/item/detail/{id}(id=${favoriteItem.item.id})}">VIEW DETAILS</a>
-						<form th:action="@{/favorite/delete}" method="post">
-							<input type="hidden" name="id" th:value="${favoriteItem.item.id}" />
-							<button type="submit">REMOVE</button>
-						</form>
-						<form th:action="@{/client/basket/add}" method="post">
-							<input type="hidden" name="id" th:value="${favoriteItem.item.id}" />
-							<button type="submit">ADD TO CART</button>
-						</form>
+					<div class="favorite_editorial_note">
+						<p>お気に入りに保存した商品を、あとで比較・検討できます。</p>
+						<p>Take your time and find what you love.</p>
 					</div>
-				</article>
-			</div>
 
-			<div class="favorite_editorial_footer_panel">
-				<div>
-					<p>KEEP EXPLORING</p>
-					<span>保存した商品を見直して、気になるものから詳細を確認できます。</span>
+					<div class="favorite_editorial_count">
+						<strong><span th:text="${favoriteCount}">0</span> ITEMS</strong>
+					</div>
+				</aside>
+
+				<div class="favorite_editorial_content">
+					<div class="favorite_editorial_empty" th:if="${#lists.isEmpty(favoriteItems)}">
+						<p>NO SAVED ITEMS</p>
+						<h2>まだお気に入りはありません</h2>
+						<span>気になる商品を保存すると、このページで確認できます。</span>
+						<a th:href="@{/client/item/list/1}">SHOP ITEMS</a>
+					</div>
+
+					<div class="favorite_editorial_list" th:unless="${#lists.isEmpty(favoriteItems)}">
+						<div class="favorite_editorial_list_head" aria-hidden="true">
+							<span></span>
+							<span>ITEM</span>
+							<span>DETAILS</span>
+							<span>PRICE</span>
+							<span>ACTION</span>
+						</div>
+
+						<article class="favorite_editorial_row" th:each="favoriteItem : ${favoriteItems}">
+							<form class="favorite_editorial_remove_icon" th:action="@{/favorite/delete}" method="post" aria-label="お気に入りから削除">
+								<input type="hidden" name="id" th:value="${favoriteItem.item.id}" />
+								<button type="submit">×</button>
+							</form>
+
+							<a class="favorite_editorial_item" th:href="@{/client/item/detail/{id}(id=${favoriteItem.item.id})}">
+								<span class="favorite_editorial_thumb">
+									<img th:src="@{/images/{image}(image=${favoriteItem.item.image})}" th:if="${favoriteItem.item.image != null and !#strings.isEmpty(favoriteItem.item.image)}" th:alt="${favoriteItem.item.name}" onerror="this.onerror=null;this.src='/shared_shop/images/common/no_image.jpg';" />
+									<img th:src="@{/images/common/no_image.jpg}" th:if="${favoriteItem.item.image == null or #strings.isEmpty(favoriteItem.item.image)}" th:alt="${favoriteItem.item.name}" />
+								</span>
+								<span class="favorite_editorial_name_area">
+									<span class="favorite_editorial_name" th:text="${favoriteItem.item.name}">Item name</span>
+									<span class="favorite_editorial_meta" th:text="${favoriteItem.item.category != null ? favoriteItem.item.category.name : 'CATEGORY'}">CATEGORY</span>
+								</span>
+							</a>
+
+							<div class="favorite_editorial_detail">
+								<span>DETAILS</span>
+								<small th:text="${favoriteItem.item.description}">ITEM DETAILS</small>
+							</div>
+
+							<p class="favorite_editorial_price" th:text="${favoriteItem.item.price != null ? '¥' + #numbers.formatInteger(favoriteItem.item.price, 1, 'COMMA') : '¥0'}">¥0</p>
+
+							<div class="favorite_editorial_actions">
+								<a th:href="@{/client/item/detail/{id}(id=${favoriteItem.item.id})}">VIEW DETAILS</a>
+								<form th:action="@{/favorite/delete}" method="post">
+									<input type="hidden" name="id" th:value="${favoriteItem.item.id}" />
+									<button type="submit">REMOVE</button>
+								</form>
+								<form th:action="@{/client/basket/add}" method="post">
+									<input type="hidden" name="id" th:value="${favoriteItem.item.id}" />
+									<button type="submit">ADD TO CART</button>
+								</form>
+							</div>
+						</article>
+					</div>
 				</div>
-				<a th:href="@{/client/item/list/1}">VIEW ALL ITEMS</a>
 			</div>
 		</div>
 	</section>
