@@ -10,7 +10,7 @@
 		<li><a th:href="@{/}">Top</a></li>
 		<li><a th:href="@{/client/item/list/1}">Items</a></li>
 		<th:block th:if="${session.user != null}">
-			<li><a th:href="@{/client/favorite/list}">Favorite</a></li>
+			<li><a th:href="@{/favorite/list}">Favorite</a></li>
 		</th:block>
 		<li><a th:href="@{/client/basket/list}">Cart</a></li>
 		<li><a th:href="@{/client/order/list}">Orders</a></li>

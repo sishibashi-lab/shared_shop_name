@@ -14,23 +14,20 @@
 						<a th:href="@{/client/item/list/1}" class="luxury_header_link luxury_browse_trigger" aria-haspopup="true">☰ Browse</a>
 						<div class="luxury_browse_panel" aria-label="カテゴリメニュー">
 							<a th:href="@{/client/item/list/1}" class="luxury_browse_item">All Items</a>
-							<th:block th:if="${categories != null and !#lists.isEmpty(categories)}">
-								<a th:each="category : ${categories}"
-									th:href="@{/client/item/list/1(categoryId=${category.id})}"
-									th:text="${category.name}"
-									class="luxury_browse_item"></a>
-							</th:block>
-							<th:block th:if="${categories == null or #lists.isEmpty(categories)}">
-								<a th:href="@{/client/item/list/1(categoryId=1)}" class="luxury_browse_item">Rings</a>
-								<a th:href="@{/client/item/list/1(categoryId=2)}" class="luxury_browse_item">Necklaces</a>
-								<a th:href="@{/client/item/list/1(categoryId=3)}" class="luxury_browse_item">Earrings</a>
-								<a th:href="@{/client/item/list/1(categoryId=4)}" class="luxury_browse_item">Bracelets</a>
-								<a th:href="@{/client/item/list/1(categoryId=5)}" class="luxury_browse_item">Bridal</a>
-							</th:block>
+							<a th:each="category : ${categories}" th:href="@{/client/item/list/1(categoryId=${category.id})}"
+								th:text="${category.name}" class="luxury_browse_item"></a>
 						</div>
 					</div>
 					<span class="luxury_header_divider"></span>
-					<a th:href="@{/client/item/list/1}" class="luxury_header_link">Search</a>
+					<div class="luxury_search_menu">
+						<a th:href="@{/client/item/list/1}" class="luxury_header_link luxury_search_trigger" aria-haspopup="true">Search</a>
+						<div class="luxury_search_panel" aria-label="商品検索">
+							<form th:action="@{/client/item/list/1}" method="get" class="luxury_search_form">
+								<input type="text" name="keyword" class="luxury_search_input" placeholder="キーワードで探す" autocomplete="off" />
+								<button type="submit" class="luxury_search_button">Search</button>
+							</form>
+						</div>
+					</div>
 				</div>
 
 				<a th:href="@{/}" class="luxury_logo_area" aria-label="トップページへ">
@@ -41,7 +38,7 @@
 					<a th:href="@{/login}" class="luxury_header_link">Login</a>
 					<span class="luxury_header_divider"></span>
 					<a th:href="@{/client/user/regist/input/init}" class="luxury_header_link">Sign up</a>
-					<a th:href="@{/client/favorite/list}" class="luxury_icon_text" aria-label="お気に入り">♡</a>
+					<a th:href="@{/favorite/list}" class="luxury_icon_text" aria-label="お気に入り">♡</a>
 					<a th:href="@{/client/basket/list}" class="luxury_bag_icon" aria-label="買い物かご"></a>
 				</div>
 
@@ -49,7 +46,7 @@
 					<a th:href="@{/client/user/detail}" class="luxury_header_link" th:text="${session.user.name}"></a>
 					<span class="luxury_header_divider"></span>
 					<a th:href="@{/logout}" class="luxury_header_link" th:text="#{logout}"></a>
-					<a th:href="@{/client/favorite/list}" class="luxury_icon_text" aria-label="お気に入り">♡</a>
+					<a th:href="@{/favorite/list}" class="luxury_icon_text" aria-label="お気に入り">♡</a>
 					<a th:href="@{/client/basket/list}" class="luxury_bag_icon" aria-label="買い物かご"></a>
 				</div>
 			</div>
