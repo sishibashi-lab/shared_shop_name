@@ -627,6 +627,24 @@ select {
 	display: flex;
 	justify-content: space-between;
 }
+.detail_layout1{
+	z-index: 0;
+}
+.detail_layout2{
+	visibility: hidden;
+	opacity: 0;
+	position: absolute;
+	z-index: 1;
+	width: 100vh;
+	height: 100vh;
+	top: 0;
+	left: 0;
+	
+}
+.detail_layout2.open{
+	visibility: visible;
+	opacity: 1;
+}
 /* ---- 注文一覧 ---- */
 .list_table.order{
 	margin-top: 50px;
