@@ -46,11 +46,13 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
 	public Item findByNameAndDeleteFlag(String name, int notDeleted);
 	
 	/**
+
 	 * 未削除の商品を売れ筋順に取得（実際に1件以上注文された商品のみ）
 	 * * @param deleteFlag 削除フラグ
 	 * @return 商品エンティティのリスト
 	 */
 	@Query("SELECT i FROM Item i INNER JOIN OrderItem oi ON oi.item = i WHERE i.deleteFlag = :deleteFlag GROUP BY i.id, i.name, i.price, i.description, i.image, i.stock, i.deleteFlag, i.insertDate, i.category.id ORDER BY SUM(oi.quantity) DESC, i.id DESC")
+
 	List<Item> findListByPopular(@Param("deleteFlag") int deleteFlag);
 
 	/**
@@ -107,4 +109,5 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
 	 */
 	@Query("SELECT i FROM Item i WHERE i.deleteFlag = :deleteFlag AND i.name LIKE :keyword ORDER BY i.insertDate DESC, i.id DESC")
 	List<Item> findListByNewestAndKeyword(@Param("keyword") String keyword, @Param("deleteFlag") int deleteFlag);
+
 }
