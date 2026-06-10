@@ -25,7 +25,7 @@ import jp.co.sss.shop.util.Constant;
 @Controller
 public class ClientItemShowController {
 	/**
-	 * 商品情報
+	 * 商品情報リポジトリ
 	 */
 	@Autowired
 	ItemRepository itemRepository;
@@ -37,10 +37,10 @@ public class ClientItemShowController {
 	BeanTools beanTools;
 	
 	/**
-	 * トップ画面 表示処理（http://localhost:55000/shared_shop/ アクセス時）
+	 * トップ画面 表示処理
 	 * URLパターン: /
 	 *
-	 * @param model    Viewとの値受渡し
+	 * @param model Viewとの値受渡し
 	 * @return "index" トップ画面
 	 */
 	@RequestMapping(path = "/", method = { RequestMethod.GET, RequestMethod.POST })
@@ -57,7 +57,7 @@ public class ClientItemShowController {
 		// 商品一覧画面のHTMLと互換性を持たせるため、同じ属性名 "items" でモデルに登録
 		model.addAttribute("items", itemBeans);
 		
-		// クエリパラメータ（sortTypeやcategoryId）の初期値として、売れ筋順(1)・全件(0)を画面に送る
+		// クエリパラメータ（sortTypeやcategoryId）の初期値として、売れ筋順(2)・全件(0)を画面に送る
 		model.addAttribute("sortType", 2);
 		model.addAttribute("categoryId", 0);
 		
@@ -82,21 +82,22 @@ public class ClientItemShowController {
 			if (sortType == 1) {
 				// 新着順で全件取得
 				finalItems = itemRepository.findListByNewest(Constant.NOT_DELETED);
-			} else if (sortType == 2) {
-				// 【修正】売れ筋順で全件取得（削除フラグを追加）
+			} else {
+				// 売れ筋順、またはそれ以外の不正な値の時はデフォルトで売れ筋全件取得
 				finalItems = itemRepository.findListByPopular(Constant.NOT_DELETED);
+				sortType = 2; // 安全対策として画面側のバッジやセレクトボックスの状態を売れ筋(2)に合わせる
 			}
 		} 
 		else {
-			// カテゴリIDが0以外で指定されている場合は、条件を絞ってデータベースから直接取得
+			// カテゴリIDが0以外で指定されている場合は、条件を絞ってデータベースから取得
 			if (sortType == 1) {
 				// 新着順かつカテゴリ指定
 				finalItems = itemRepository.findLatestByCategory(categoryId, Constant.NOT_DELETED);
 			} else if (sortType == 2) {
-				// 【修正】売れ筋順かつカテゴリ指定（削除フラグを追加）
+				// 売れ筋順かつカテゴリ指定
 				finalItems = itemRepository.findPopularByCategory(categoryId, Constant.NOT_DELETED);
 			} else {
-				// 標準のカテゴリ検索（並び順：ID昇順）
+				// 想定外のソート順の場合は、標準のカテゴリ検索（並び順：ID昇順）
 				finalItems = itemRepository.findActiveByCategoryId(categoryId, Constant.NOT_DELETED);
 			}
 		}

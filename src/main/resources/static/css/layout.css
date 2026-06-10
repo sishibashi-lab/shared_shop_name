@@ -60,7 +60,7 @@ li {
 
 
 .container {
-	width: 100%;
+	width: 960px;
 	margin: 0 auto;
 	justify-content: space-between;
 }
@@ -69,7 +69,6 @@ body > .container {
 }
 .content {
 	padding:30px 0 60px;
-	
 }
 
 /* ---- ヘッダー ---- */
@@ -338,15 +337,13 @@ aside.admin_menu {
 	color:#C00;
 }
 .complete_message,
-.complete_link,
-.complete_link a:visited {
+.complete_link {
 	font-size: 1.2em;
 	margin-top: 30px;
-/*	padding-left: 30px;*/
-	color: #222;
+	padding-left: 30px;
 }
 .complete_link a:hover {
-	opacity: 0.65;
+	color: #d34320;
 }
 
 /* ---- フッター ---- */
@@ -379,248 +376,4 @@ small {
 	line-height:30px;
 	text-shadow: 1px 1px 1px #fff;
 	font-size: 8pt;
-}
-/* ---- 宝石店ヘッダーのみ ---- */
-.user header {
-	background: #fbf8f2;
-	padding: 0;
-	border-top: 1px solid #d8c3a0;
-	border-bottom: 0;
-}
-
-.user header .container {
-	width: auto;
-}
-
-.luxury_header {
-	background: #fbf8f2;
-}
-
-.luxury_header_inner {
-	width: min(1280px, calc(100% - 48px));
-	min-height: 148px;
-	margin: 0 auto;
-	display: grid;
-	grid-template-columns: 1fr auto 1fr;
-	align-items: center;
-	column-gap: 32px;
-	position: relative;
-}
-
-.luxury_header_left,
-.luxury_header_right {
-	display: flex;
-	align-items: center;
-	gap: 24px;
-}
-
-.luxury_header_right {
-	justify-content: flex-end;
-}
-
-.luxury_header_link {
-	color: #222;
-	text-decoration: none;
-	font-size: 1.05rem;
-	letter-spacing: 0.03em;
-	line-height: 1;
-	transition: opacity 0.2s ease;
-}
-
-.luxury_header_link:hover {
-	opacity: 0.65;
-	text-decoration: none;
-}
-
-.luxury_header_divider {
-	width: 1px;
-	height: 26px;
-	background: #c7a870;
-	opacity: 0.8;
-}
-
-.luxury_logo_area {
-	min-width: clamp(260px, 34vw, 440px);
-	height: 86px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	position: relative;
-	border: 1px solid rgba(183, 147, 89, 0.65);
-	text-decoration: none;
-	color: #b9a383;
-	background: rgba(255, 255, 255, 0.18);
-}
-
-.luxury_logo_area::before,
-.luxury_logo_area::after {
-	content: "";
-	width: 12px;
-	height: 12px;
-	background: #c7a870;
-	position: absolute;
-	left: 50%;
-	transform: translateX(-50%) rotate(45deg);
-}
-
-.luxury_logo_area::before {
-	top: -7px;
-}
-
-.luxury_logo_area::after {
-	bottom: -7px;
-}
-
-.luxury_logo_text {
-	font-size: clamp(1.1rem, 2vw, 1.55rem);
-	letter-spacing: 0.45em;
-	font-weight: 400;
-	color: #b9a383;
-	padding-left: 0.45em;
-}
-
-.luxury_icon_text {
-	color: #111;
-	text-decoration: none;
-	font-size: 2.4rem;
-	line-height: 1;
-	font-weight: 300;
-	transition: opacity 0.2s ease;
-}
-
-.luxury_icon_text:hover {
-	opacity: 0.65;
-	text-decoration: none;
-}
-
-.luxury_bag_icon {
-	width: 34px;
-	height: 34px;
-	display: inline-block;
-	position: relative;
-	border: 2px solid #111;
-	border-radius: 3px 3px 5px 5px;
-	text-decoration: none;
-	transition: opacity 0.2s ease;
-}
-
-.luxury_bag_icon::before {
-	content: "";
-	width: 15px;
-	height: 12px;
-	border: 2px solid #111;
-	border-bottom: 0;
-	border-radius: 12px 12px 0 0;
-	position: absolute;
-	left: 50%;
-	top: -12px;
-	transform: translateX(-50%);
-	background: transparent;
-}
-
-.luxury_bag_icon:hover {
-	opacity: 0.65;
-}
-
-/* 既存ナビを宝石店ヘッダー下段に変更 */
-.user .navi_area {
-	background: #fbf8f2;
-	border-bottom: 1px solid #d8c3a0;
-}
-
-.user .navi_menu {
-	width: min(980px, calc(100% - 48px));
-	margin: 0 auto;
-	padding: 22px 0 34px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	gap: clamp(26px, 5vw, 76px);
-}
-
-.user .navi_menu li {
-	display: block;
-	width: auto;
-}
-
-.user .navi_menu a {
-	width: auto;
-	display: inline-block;
-	position: relative;
-	padding: 0 0 16px;
-	border: 0;
-	background: transparent;
-	color: #222;
-	font-size: 1.08rem;
-	line-height: 1.4;
-	text-align: center;
-	text-decoration: none;
-	text-shadow: none;
-	letter-spacing: 0.03em;
-	transition: opacity 0.2s ease;
-}
-
-.user .navi_menu a::after {
-	content: "";
-	position: absolute;
-	left: 50%;
-	bottom: 0;
-	width: 0;
-	height: 2px;
-	background: #b9904f;
-	transform: translateX(-50%);
-	transition: width 0.22s ease;
-}
-
-.user .navi_menu li:nth-child(2) a::after,
-.user .navi_menu a:hover::after {
-	width: 118px;
-}
-
-.user .navi_menu a:hover {
-	background: transparent;
-	color: #222;
-	border-color: transparent;
-	text-shadow: none;
-	opacity: 0.75;
-}
-
-.user .navi_menu li:first-of-type a,
-.user .navi_menu li:last-of-type a {
-	border-radius: 0;
-}
-
-@media (max-width: 760px) {
-	.luxury_header_inner {
-		width: min(100% - 28px, 560px);
-		min-height: auto;
-		padding: 24px 0 22px;
-		grid-template-columns: 1fr;
-		row-gap: 22px;
-		justify-items: center;
-	}
-
-	.luxury_header_left,
-	.luxury_header_right {
-		justify-content: center;
-		flex-wrap: wrap;
-		gap: 18px;
-	}
-
-	.luxury_logo_area {
-		order: -1;
-		min-width: min(100%, 360px);
-		height: 72px;
-	}
-
-	.user .navi_menu {
-		width: min(100% - 28px, 560px);
-		gap: 18px 28px;
-		flex-wrap: wrap;
-		padding: 18px 0 24px;
-	}
-
-	.user .navi_menu a {
-		font-size: 0.98rem;
-	}
 }
