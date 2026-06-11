@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	th:replace="~{common/layout_5block :: layout(~{::title},~{::body/content()})}">
+
+<head>
+	<title th:text="#{top}+' | '+ #{shop.title}"> </title>
+	<meta charset="UTF-8" />
+</head>
+
+<body class="user index">
+	<p>閲覧数ランキング</p>
+	<div class="item_list">
+		<th:block th:each="item, status: ${viewCountRanking}" th:if="${status.count le 10}">
+			<!--/* 1件分の商品情報 */-->
+			<div class="item">
+				<a th:href="@{/client/item/detail/}+${item.id}">
+					<img th:src="@{/images/{image}(image=${item.image})}" th:if="${item.image != null}" />
+					<img th:src="@{/images/common/no_image.jpg}" th:if="${item.image == null}" />
+				</a>
+				<div class="product-card__body">
+					<a th:href="@{/client/item/detail/}+${item.id}" th:text="${item.name}">商品名</a>
+					<p class="product-card__description" th:text="${item.description}">説明文</p>
+					<div class="product-card__meta">
+						<span th:text="${item.category.name}">CATEGORY</span>
+						<strong th:text="${#numbers.formatInteger(item.price, 3, 'COMMA')} + '円'">0円</strong>
+					</div>
+					<div>閲覧数：<span th:text="${viewCount[status.index]}"></span></div>
+				</div>
+			</div>
+		</th:block>
+	</div>
+	<p>お気に入り数ランキング</p>
+	<div class="item_list">
+		<th:block th:each="item, status: ${favoriteCountRanking}" th:if="${status.count le 10}">
+			<!--/* 1件分の商品情報 */-->
+			<div class="item">
+				<a th:href="@{/client/item/detail/}+${item.id}">
+					<img th:src="@{/images/{image}(image=${item.image})}" th:if="${item.image != null}" />
+					<img th:src="@{/images/common/no_image.jpg}" th:if="${item.image == null}" />
+				</a>
+				<div class="product-card__body">
+					<a th:href="@{/client/item/detail/}+${item.id}" th:text="${item.name}">商品名</a>
+					<p class="product-card__description" th:text="${item.description}">説明文</p>
+					<div class="product-card__meta">
+						<span th:text="${item.category.name}">CATEGORY</span>
+						<strong th:text="${#numbers.formatInteger(item.price, 3, 'COMMA')} + '円'">0円</strong>
+					</div>
+					<div>お気に入り数：<span th:text="${favoriteCount[status.index]}"></span></div>
+				</div>
+			</div>
+		</th:block>
+	</div>
+	<p>レビュー数ランキング(未着手)</p>
+</body>
+
+</html>
