@@ -14,7 +14,7 @@
 			<span th:if="${sortType==2 || sortType==null}" th:text="#{sort.hotsell.title}"></span>
 		</h2>
 	</div>
-	<div th:if="${#lists.isEmpty(items)}">
+	<div th:if="${#lists.isEmpty(items)}" class="list_none_msg">
 		<p th:text="#{msg.client.item.list.none}"></p>
 	</div>
 	<div class="item_list">
@@ -45,6 +45,9 @@
 			<h2 class="title">おすすめ商品
 			</h2>
 		</div>
+		<div th:if="${#lists.isEmpty(recommend)}" class="list_none_msg">
+			<p th:text="#{msg.client.item.recommend.none}"></p>
+		</div>
 		<th:block th:each="item, status: ${recommend}" th:if="${status.count le 10}">
 			<!--/* 1件分の商品情報 */-->
 			<div class="item">
@@ -69,6 +72,9 @@
 		<div>
 			<h2 class="title">閲覧履歴
 			</h2>
+		</div>
+		<div th:if="${#lists.isEmpty(viewHistory)}" class="list_none_msg">
+			<p th:text="#{msg.client.item.history.none}"></p>
 		</div>
 		<th:block th:each="item, status: ${viewHistory}" th:if="${status.count le 10}">
 			<!--/* 1件分の商品情報 */-->
@@ -97,7 +103,7 @@
 
 						<!-- お気に入り解除（登録済の場合のみ表示） -->
 						<form th:if="${isFavoView[status.index]}"
-							th:action="@{/index/favorite/delete/{id}(id=${item.item.id})}" method="post"
+							th:action="@{/index/favorite/regist/{id}(id=${item.item.id})}" method="post"
 							class="favo-del">
 							<input type="hidden" name="id" th:value="${item.item.id}">
 							<button class="button button--heart-active" type="submit">♥ お気に入りを解除</button>
