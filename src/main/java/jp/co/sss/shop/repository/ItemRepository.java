@@ -115,15 +115,15 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
 	
 	
     //閲覧数順
-    @Query("SELECT i FROM Item i INNER JOIN ViewHistory vh ON vh.item = i GROUP BY i.id, i.name, i.price, i.description, i.image, i.stock, i.deleteFlag, i.insertDate, i.category.id ORDER BY SUM(vh.viewCount) DESC")
+    @Query("SELECT i FROM Item i INNER JOIN ViewHistory vh ON vh.item = i WHERE i.deleteFlag = 0 GROUP BY i.id, i.name, i.price, i.description, i.image, i.stock, i.deleteFlag, i.insertDate, i.category.id ORDER BY SUM(vh.viewCount) DESC")
     List<Item> findByViewCountDesc();
-    @Query("SELECT SUM(vh.viewCount) FROM Item i INNER JOIN ViewHistory vh ON vh.item = i GROUP BY i.id, i.name, i.price, i.description, i.image, i.stock, i.deleteFlag, i.insertDate, i.category.id ORDER BY SUM(vh.viewCount) DESC")
+    @Query("SELECT SUM(vh.viewCount) FROM Item i INNER JOIN ViewHistory vh ON vh.item = i WHERE i.deleteFlag = 0 GROUP BY i.id, i.name, i.price, i.description, i.image, i.stock, i.deleteFlag, i.insertDate, i.category.id ORDER BY SUM(vh.viewCount) DESC")
     List<Integer> findViewCount();
     
     //お気に入り数順
-    @Query("SELECT i FROM Item i INNER JOIN Favorite f ON f.item = i AND f.deleteFlag = 0 GROUP BY i.id, i.name, i.price, i.description, i.image, i.stock, i.deleteFlag, i.insertDate, i.category.id ORDER BY COUNT(f) DESC")
+    @Query("SELECT i FROM Item i INNER JOIN Favorite f ON f.item = i AND f.deleteFlag = 0 WHERE i.deleteFlag = 0 GROUP BY i.id, i.name, i.price, i.description, i.image, i.stock, i.deleteFlag, i.insertDate, i.category.id ORDER BY COUNT(f) DESC")
     List<Item> findByFavoriteCountDesc();
-    @Query("SELECT COUNT(f) FROM Item i INNER JOIN Favorite f ON f.item = i AND f.deleteFlag = 0 GROUP BY i.id, i.name, i.price, i.description, i.image, i.stock, i.deleteFlag, i.insertDate, i.category.id ORDER BY COUNT(f) DESC")
+    @Query("SELECT COUNT(f) FROM Item i INNER JOIN Favorite f ON f.item = i AND f.deleteFlag = 0 WHERE i.deleteFlag = 0 GROUP BY i.id, i.name, i.price, i.description, i.image, i.stock, i.deleteFlag, i.insertDate, i.category.id ORDER BY COUNT(f) DESC")
     List<Integer> findFavoriteCount();
     
   //レビュー数順(未着手)
