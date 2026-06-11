@@ -127,7 +127,7 @@ public class ClientBasketController {
 	 * @return
 	 */
 	@RequestMapping(path = "/client/basket/add", method = RequestMethod.POST)
-	public String addBasketItem(@RequestParam Integer id) {
+	public String addBasketItem(@RequestParam Integer id,Model model) {
 		
 		// 現在のかごの中身を取得
 		List<BasketBean> basketList = (List<BasketBean>) session.getAttribute("basketBeans");
@@ -145,9 +145,16 @@ public class ClientBasketController {
 		
 		// かごの中身を1件ずつチェック
 		for (BasketBean basketItem : basketList) {
-			
 			// かごに入れるボタンを押したときに送られたIDが、チェックしてる商品のIDと一致した場合、注文数を1増やし、isExistingをtrueに
 			if (basketItem.getId().equals(id)) {
+				// もし現在の注文数が在庫数以上であれば、追加せずにエラーメッセージを表示する
+				if (basketItem.getOrderNum() >= item.getStock()) {
+					List<String> itemNameListLessThan = new ArrayList<String>();
+					itemNameListLessThan.add(item.getName());
+					model.addAttribute("itemNameListLessThan", itemNameListLessThan);
+					// リダイレクトせず、最新のカート情報をモデルに詰めて直接画面を表示する（showBasketと同じ処理を呼び出す）
+					return showBasket(model);
+				}
 				basketItem.setOrderNum(basketItem.getOrderNum() + 1);
 				isExisting = true;
 				break;
@@ -156,6 +163,13 @@ public class ClientBasketController {
 		
 		// チェックし終えた結果、かごにない商品をかごに入れる場合、商品の情報を入れる。
 		if (isExisting == false) {
+			if (item.getStock() <= 0) {
+				List<String> itemNameListZero = new ArrayList<String>();
+				itemNameListZero.add(item.getName());
+				model.addAttribute("itemNameListZero", itemNameListZero);
+				
+				return showBasket(model);
+			}
 			BasketBean basketItem = new BasketBean();
 			basketItem.setId(item.getId());
 			basketItem.setName(item.getName());
