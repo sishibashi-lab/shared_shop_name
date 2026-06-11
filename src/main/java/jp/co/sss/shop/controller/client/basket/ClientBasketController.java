@@ -232,6 +232,38 @@ public class ClientBasketController {
 	}
 	
 	/**
+	 * REMOVEボタン用：指定された商品をかごから完全に消去する
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping(path = "/client/basket/singleDelete", method = RequestMethod.POST)
+	public String singleDeleteBasketItem(@RequestParam Integer id) {
+		
+		// 現在セッションに保存されている買い物かごの中身（リスト）を取得
+		List<BasketBean> basketList = (List<BasketBean>) session.getAttribute("basketBeans");
+		
+		if (basketList != null) {
+			for (int i = 0; i < basketList.size(); i++) {
+				BasketBean basketItem = basketList.get(i);
+				
+				// IDが一致したら、残りの注文数に関わらず一発でリストから削除
+				if (basketItem.getId().equals(id)) {
+					basketList.remove(i);
+					break;
+				}
+			}
+			
+			if (basketList.isEmpty()) {
+				session.removeAttribute("basketBeans");
+			} else {
+				session.setAttribute("basketBeans", basketList);
+			}
+		}
+		
+		return "redirect:/client/basket/list";
+	}
+	
+	/**
 	 * かごの中身全部削除
 	 * @return
 	 */

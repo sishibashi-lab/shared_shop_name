@@ -90,7 +90,10 @@
 							<p class="basket_editorial_subtotal" th:text="${'¥' + #numbers.formatInteger(item.subtotal, 1, 'COMMA')}">¥0</p>
 
 							<div class="basket_editorial_actions">
-								<button type="button">REMOVE</button>
+								<form th:action="@{/client/basket/singleDelete}" method="post">
+									<input type="hidden" name="id" th:value="${item.id}" />
+								<button type="submit">REMOVE</button>
+								</form>
 							</div>
 						</article>
 
