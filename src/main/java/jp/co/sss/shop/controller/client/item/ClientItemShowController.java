@@ -174,33 +174,20 @@ public class ClientItemShowController {
 			@RequestParam(name = "categoryId", required = false) Integer categoryId,
 			@RequestParam(name = "keyword", required = false) String keyword,
 			@RequestParam(name = "clearKeyword", required = false) Boolean clearKeyword,
-			Model model,
-			HttpSession session) {
-
-		// キーワードの入力判定とセッション管理（検索状態の維持）
-		if (Boolean.TRUE.equals(clearKeyword)) {
-			session.removeAttribute("searchKeyword");
-			keyword = null;
-		} else if (keyword != null) {
-			keyword = keyword.trim();
-
-			if (keyword.isEmpty()) {
-				keyword = null;
-				session.removeAttribute("searchKeyword");
-			} else {
-				session.setAttribute("searchKeyword", keyword);
-			}
-		} else {
-			keyword = (String) session.getAttribute("searchKeyword");
-		}
-
+			Model model) {
+		
 		// 安全対策：categoryIdの初期化（nullやマイナスの値なら全体「0」にする）
-		if (categoryId == null || categoryId < 0) {
-			categoryId = 0;
-		}
-
+				if (categoryId == null || categoryId < 0) {
+					categoryId = 0;
+				}
+				
+				if (keyword != null) {
+					keyword = keyword.trim();
+					if (keyword.isEmpty()) {
+						keyword = null;
+					}
+				}
 		// 最終的に画面に表示するエンティティのリスト
-
 		List<Item> finalItems = new ArrayList<>();
 
 		// 条件に応じたデータベース検索の実行（クエリの分岐）
