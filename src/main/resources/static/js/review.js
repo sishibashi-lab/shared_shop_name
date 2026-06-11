@@ -1,10 +1,18 @@
 /**
  * 
  */
+		$(function () {
+			$('.review-button').on('click', function () {
+				alert("aaa");
+				$('.detail_layout2').toggleClass('open');
 
- $(function () {
-  $('.review-button').on('click', function () {
-    $('.detail_layout2').toggleClass('open');
-    alert("aaa");
-  });
-});
+<<<<<<< HEAD
+=======
+		$(function () {
+			$('.review-button').on('click', function () {
+				alert("aaa");
+				$('.detail_layout2').toggleClass('open');
+
+>>>>>>> 885f1e633f455d4cbaf26f1dbf05f4a51a9e9ce5
+			});
+		});
