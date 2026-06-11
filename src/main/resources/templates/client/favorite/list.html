@@ -8,17 +8,16 @@
 </head>
 
 <body>
-	<section class="favorite_editorial_area">
+	<section class="favorite_editorial_area" aria-labelledby="favoritePageTitle">
 		<div class="favorite_editorial_shell">
 			<div class="favorite_editorial_layout">
-				<aside class="favorite_editorial_side" aria-label="wishlist summary">
+				<aside class="favorite_editorial_side" aria-label="お気に入り概要">
 					<div class="favorite_editorial_title_block">
-						<h1><span>MY</span><span>WISHLIST</span></h1>
+						<h1 id="favoritePageTitle"><span>MY</span><span>WISHLIST</span></h1>
 						<p>SAVED PIECES FOR LATER</p>
 					</div>
 
 					<div class="favorite_editorial_note">
-						<p>お気に入りに保存した商品を、あとで比較・検討できます。</p>
 						<p>Take your time and find what you love.</p>
 					</div>
 
@@ -74,19 +73,15 @@
 							</a>
 
 							<div class="favorite_editorial_detail">
-								<span>DETAILS</span>
-								<small th:text="${favoriteItem.item.description}">ITEM DETAILS</small>
+								<a th:href="@{/client/item/detail/{id}(id=${favoriteItem.item.id})}">VIEW DETAILS</a>
 							</div>
 
-							<p class="favorite_editorial_price" th:text="${favoriteItem.item.price != null ? '¥' + #numbers.formatInteger(favoriteItem.item.price, 1, 'COMMA') : '¥0'}">¥0</p>
+							<p class="favorite_editorial_price"
+								th:text="${favoriteItem.item.price != null ? '¥' + #numbers.formatInteger(favoriteItem.item.price, 1, 'COMMA') : '¥0'}">
+								¥0</p>
 
 							<div class="favorite_editorial_actions">
-								<a th:href="@{/client/item/detail/{id}(id=${favoriteItem.item.id})}">VIEW DETAILS</a>
-								<form th:action="@{/favorite/delete}" method="post">
-									<input type="hidden" name="id" th:value="${favoriteItem.item.id}" />
-									<button type="submit">REMOVE</button>
-								</form>
-								<form th:action="@{/client/basket/add}" method="post">
+								<form class="favorite_editorial_cart_form" th:action="@{/client/basket/add}" method="post">
 									<input type="hidden" name="id" th:value="${favoriteItem.item.id}" />
 									<button type="submit">ADD TO CART</button>
 								</form>
@@ -98,6 +93,5 @@
 		</div>
 	</section>
 </body>
-
 
 </html>
