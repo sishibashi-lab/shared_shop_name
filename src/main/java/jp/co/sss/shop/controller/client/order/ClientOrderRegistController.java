@@ -101,7 +101,7 @@ public class ClientOrderRegistController {
 		BindingResult bindingResult = (BindingResult) session.getAttribute("result");
 		if (bindingResult != null) {
 			model.addAttribute("org.springframework.validation.BindingResult.orderForm", bindingResult);
-			// フラッシュスコープのように振る舞うため、一度表示したらセッションから消去
+			//一度表示したらセッションから消去
 			session.removeAttribute("result");
 		}
 
@@ -257,7 +257,7 @@ public class ClientOrderRegistController {
 
 				orderItemBeans.add(orderItemBean);
 
-				// 総合計金額へ加算
+				// 合計金額へ加算
 				total += subtotal;
 			}
 		}
@@ -271,7 +271,7 @@ public class ClientOrderRegistController {
 	}
 
 	/**
-	 * 注文確定処理（DBへの永続化と在庫の差し引き）
+	 * 注文確定処理
 	 */
 	@PostMapping("/client/order/complete")
 	public String completeOrder(HttpSession session) {
@@ -300,7 +300,7 @@ public class ClientOrderRegistController {
 		order.setId(null); // 自動採番(AUTO_INCREMENT)させるため明示的にnullをセット
 		order.setUser(user);
 
-		// ordersテーブルへインサート実行（これにより、この後order.getId()で採番されたIDが拾えるようになる）
+		// ordersテーブルへインサート実行
 		orderRepository.save(order);
 
 		// 4. 「order_items」への登録と、商品在庫の減算（UPDATE）
@@ -313,8 +313,8 @@ public class ClientOrderRegistController {
 
 			// 注文商品エンティティ(order_items)を生成
 			jp.co.sss.shop.entity.OrderItem orderItem = new jp.co.sss.shop.entity.OrderItem();
-			orderItem.setOrder(order); // 3で発番された親注文を紐付け（外部キー）
-			orderItem.setItem(item); // 対象の商品を紐付け（外部キー）
+			orderItem.setOrder(order); // 3で発番された親注文を紐付け
+			orderItem.setItem(item); // 対象の商品を紐付け
 			orderItem.setQuantity(basketItem.getOrderNum()); // 購入数
 			orderItem.setPrice(item.getPrice()); // 購入時点の単価を記録
 
