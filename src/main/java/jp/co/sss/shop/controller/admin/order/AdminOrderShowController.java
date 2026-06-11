@@ -9,7 +9,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -124,9 +123,4 @@ public class AdminOrderShowController {
 		return "admin/order/detail";
 	}
 
-	@PostMapping("/admin/order/list")
-	public String backToOrderList() {
-
-		return "redirect:/admin/order/list";
-	}
 }

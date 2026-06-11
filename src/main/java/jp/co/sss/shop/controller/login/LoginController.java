@@ -14,7 +14,7 @@ import jp.co.sss.shop.form.LoginForm;
 import jp.co.sss.shop.repository.UserRepository;
 import jp.co.sss.shop.util.Constant;
 
-	//test kawashima
+//test kawashima
 
 /**
  * ログイン機能のコントローラクラス
@@ -59,6 +59,9 @@ public class LoginController {
 	 * @return
 			一般会員の場合 "redirect:/" トップ画面表示処理
 			運用管理者、システム管理者の場合 "redirect:/adminmenu"管理者メニュー表示処理
+	 */
+	/**
+	 * ログイン処理 (POST)
 	 */
 	@RequestMapping(path = "/login", method = RequestMethod.POST)
 	public String doLogin(@Valid @ModelAttribute LoginForm form, BindingResult result) {

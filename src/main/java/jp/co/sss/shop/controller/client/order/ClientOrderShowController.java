@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import jakarta.servlet.http.HttpSession;
 import jp.co.sss.shop.bean.OrderBean;
 import jp.co.sss.shop.bean.OrderItemBean;
+import jp.co.sss.shop.bean.UserBean;
 import jp.co.sss.shop.entity.Order;
 import jp.co.sss.shop.entity.OrderItem;
-import jp.co.sss.shop.entity.User;
 import jp.co.sss.shop.repository.OrderRepository;
 import jp.co.sss.shop.service.BeanTools;
 import jp.co.sss.shop.service.PriceCalc;
@@ -50,8 +50,7 @@ public class ClientOrderShowController {
 	@GetMapping("/client/order/list")
 	public String showOrderList(Model model) {
 
-		User user = (User) session.getAttribute("user");
-
+		UserBean user = (UserBean) session.getAttribute("user");
 		List<Order> orders = orderRepository.findByUserIdOrderByInsertDateDescIdDesc(user.getId());
 
 		List<OrderBean> orderBeans = new ArrayList<OrderBean>();
@@ -83,7 +82,7 @@ public class ClientOrderShowController {
 
 		// 2. 選択された注文情報をDBから取得
 		Order order = orderRepository.getReferenceById(id);
-		// 3. 管理者用の技を応用！表示する注文情報（OrderBean）を生成
+		// 3. 表示する注文情報（OrderBean）を生成
 		OrderBean orderBean = beanTools.copyEntityToOrderBean(order);
 
 		// 4. 注文商品情報を取得・生成（OrderItemBeanのリスト）

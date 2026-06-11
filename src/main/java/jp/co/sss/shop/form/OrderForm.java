@@ -54,7 +54,7 @@ public class OrderForm implements Serializable {
 	/**
 	 * 支払い方法
 	 */
-	private Integer payMethod;
+	private Integer payMethod = 1;
 
 	/**
 	 * 注文するユーザIDの取得
@@ -151,6 +151,5 @@ public class OrderForm implements Serializable {
 	public void setPayMethod(Integer payMethod) {
 		this.payMethod = payMethod;
 	}
-
 
 }
