@@ -9,6 +9,7 @@
 	<ul th:fragment="layout-menu" th:class="navi_menu">
 		<li><a th:href="@{/}">Top</a></li>
 		<li><a th:href="@{/client/item/list/1}">Items</a></li>
+		<li><a th:href="@{/client/ranking/list}">Ranking</a></li>
 		<th:block th:if="${session.user != null}">
 			<li><a th:href="@{/favorite/list}">Favorite</a></li>
 		</th:block>
