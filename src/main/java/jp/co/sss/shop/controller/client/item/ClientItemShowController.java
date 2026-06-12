@@ -130,14 +130,13 @@ public class ClientItemShowController {
 			if (latestView != null) {
 				Item latestCategory = itemRepository.getReferenceById(latestView.getItem().getId());
 
-				List<ViewHistory> allView = viewHistoryRepository.findAllByUserIdOrderByViewDateDesc(user.getId());
-				List<Item> allRecommendItem = itemRepository
-						.findAllByCategoryName(latestCategory.getCategory().getName());
+				List<Favorite> favorite = favoriteRepository.findByUserIdAndDeleteFlagOrderByFavoriteDateDesc(user.getId(),0);
+				List<Item> allRecommendItem = itemRepository.findAllByCategoryName(latestCategory.getCategory().getName());
 
 				for (Item item : allRecommendItem) {
 					boolean isViewItem = true;
-					for (ViewHistory view : allView) {
-						if (item.getId() == view.getItem().getId()) {
+					for (Favorite favoItem : favorite) {
+						if (item.getId() == favoItem.getItem().getId()) {
 							isViewItem = false;
 						}
 
