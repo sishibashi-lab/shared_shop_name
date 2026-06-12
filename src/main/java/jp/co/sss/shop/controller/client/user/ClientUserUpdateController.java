@@ -155,7 +155,7 @@ public class ClientUserUpdateController {
 		session.setAttribute("user", loginUser);
 		
 		//変更完了画面表示処理にリダイレクト
-		return "redirect:/client/user/update_complete";
+		return "redirect:/client/user/update/complete";
 	}
 	
 	//処理6(変更完了画面表示処理)
