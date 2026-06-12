@@ -27,6 +27,7 @@ p {
 	justify-content: center;
 	position: relative;
 	border-top: #b9a383 solid 1px;
+	transform: scale(1.2);
 }
 
 .login_form_area ul{
@@ -116,8 +117,19 @@ p {
 	text-decoration: none;
 }
 #back_top{
-	margin-left: 0px;
+	padding: 0px;
+	margin-top: 60px;
 	text-align: center;
+}
+#back_top a{
+	color: #222;
+	transition: 0.3s;
+	border-radius: 100px;
+	padding: 5px 10px;
+}
+#back_top a:hover{
+	opacity: 80%;
+	background-color: rgba(199, 168, 112, 0.14);
 }
 
 /* ---- ページタイトル ---- */
