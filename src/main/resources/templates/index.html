@@ -12,11 +12,15 @@
 		<div class="hero_text_container">
 			<p class="style">MAGAZINE STYLING</p>
 			<h2 class="hero_title">CURATED.<br>MODERN.<br>SOFTLY<br>LUXE.</h2>
-			<div class="hero_text"><p>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p></div>
+			<div class="hero_text">
+				<p>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
+			</div>
 			<div class="hero_button_container">
-				<a href="#latest_hot" th:if="${sortType==1}">latest</a>
-				<a href="#latest_hot" th:if="${sortType==2}">hot</a>
-				<a href="#recommend">recommend</a>
+				<div>
+					<a href="#latest_hot" th:if="${sortType==1}" class="hero_latest_button">新着商品を見る</a>
+					<a href="#latest_hot" th:if="${sortType==2}" class="hero_latest_button">売れ筋を見る</a>
+				</div>
+				<a href="#recommend" class="hero_recommend_button">おすすめを見る →</a>
 			</div>
 		</div>
 		<div class="hero_img">
