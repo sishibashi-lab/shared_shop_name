@@ -8,8 +8,23 @@
 </head>
 
 <body class="user index">
+	<div class="hero_container">
+		<div class="hero_text_container">
+			<p class="style">MAGAZINE STYLING</p>
+			<h2 class="hero_title">CURATED.<br>MODERN.<br>SOFTLY<br>LUXE.</h2>
+			<div class="hero_text"><p>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p></div>
+			<div class="hero_button_container">
+				<a href="#latest_hot" th:if="${sortType==1}">latest</a>
+				<a href="#latest_hot" th:if="${sortType==2}">hot</a>
+				<a href="#recommend">recommend</a>
+			</div>
+		</div>
+		<div class="hero_img">
+			<img th:src="@{/images/hero1.jpg}">
+		</div>
+	</div>
 	<div>
-		<h2 class="title">
+		<h2 class="title" id="latest_hot">
 			<span th:if="${sortType==1}" th:text="#{sort.latest.title}"></span>
 			<span th:if="${sortType==2 || sortType==null}" th:text="#{sort.hotsell.title}"></span>
 		</h2>
@@ -42,7 +57,7 @@
 	<!--	おすすめ商品-->
 	<div class="item_list" th:if="${loginUser != null}">
 		<div>
-			<h2 class="title">おすすめ商品
+			<h2 class="title" id="recommend">おすすめ商品
 			</h2>
 		</div>
 		<div th:if="${#lists.isEmpty(recommend)}" class="list_none_msg">

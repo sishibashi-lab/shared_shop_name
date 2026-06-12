@@ -16,10 +16,49 @@ p {
 	margin: 15px 0;
 }
 /* --- トップ画面 ---*/
-.navi_area~.container {
+.hero_container{
+	position: relative;
 	display: flex;
+	width: 100%;
+	justify-content: flex-end;
+	height: 750px;
 }
-
+.hero_text_container{
+	z-index: 2;
+	width: 500px;
+}
+.style{
+	font-weight: bold;
+	color:#B9904F;
+	margin-top: 120px;
+	letter-spacing: 2px;
+}
+.hero_title{
+	font-size: 100px;
+	text-align: left;
+	width: fit-content;
+	line-height: 0.9;
+	margin-top: 10px;
+	font-family: '游明朝';
+	font-weight: bold;
+	letter-spacing: -8px;
+}
+.hero_text{
+	width: 460px;
+}
+.hero_text{
+	overflow-wrap:break-word;
+}
+.hero_img{
+	width: 60%;
+	overflow: hidden;
+	position: relative;
+}
+.hero_img img{
+	width: 1200px;
+	position: absolute;
+	left: -50px;
+}
 /* ---- 入力フォーム(ログイン) ---- */
 
 .user_container{
