@@ -15,6 +15,7 @@ public class URLCheck {
 	public static boolean isURLForStaticFile(String requestURL) {
 		boolean isCheckURLOK = false;
 		if (requestURL.indexOf(Constant.CSS_FOLDER) != -1
+				|| requestURL.indexOf("/js/") != -1
 				|| requestURL.indexOf(Constant.IMAGE_FOLDER) != -1) {
 			// URLのリクエスト先がフィルタ実行対象である場合
 			isCheckURLOK = true;
@@ -113,6 +114,7 @@ public class URLCheck {
 				&& !requestURL.endsWith(contextPath + "/")
 				&& requestURL.indexOf("/client/item/list/") == -1
 				&& requestURL.indexOf("/client/item/detail/") == -1
+				&& requestURL.indexOf("/client/ranking/list") == -1
 				&& requestURL.indexOf("/client/user/delete/") == -1
 				&& !requestURL.endsWith("/client/user/regist/input/init")
 				&& !requestURL.endsWith("/client/user/regist/input")
@@ -158,7 +160,8 @@ public class URLCheck {
 						|| requestURL.indexOf("/client/user/detail") != -1
 						|| requestURL.indexOf("/client/user/regist") != -1
 						|| requestURL.indexOf("/client/user/update") != -1
-						|| requestURL.indexOf("/client/user/delete") != -1)) {
+						|| requestURL.indexOf("/client/user/delete") != -1
+						|| requestURL.indexOf("/client/ranking") != -1)) {
 
 			// URLのリクエスト先がフィルタ実行対象である場合
 			isCheckURLOK = true;

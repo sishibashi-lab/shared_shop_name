@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	th:replace="~{common/layout_5block :: layout(~{::title},~{::body/content()})}">
+
+<head>
+	<title th:text="'ランキング | ' + #{shop.title}">ランキング | System Shared</title>
+	<meta charset="UTF-8" />
+</head>
+
+<body>
+	<section class="ranking_editorial_area" aria-labelledby="rankingPageTitle">
+		<div class="ranking_editorial_shell">
+			<div class="ranking_editorial_layout">
+				<aside class="ranking_editorial_side" aria-label="ランキング概要">
+					<div class="ranking_editorial_title_block">
+						<h1 id="rankingPageTitle"><span>JEWELRY</span><span>RANKING</span></h1>
+						<p>MOST LOVED PIECES</p>
+					</div>
+
+					<div class="ranking_editorial_note">
+						<p>今、選ばれている商品を。</p>
+						<p>人気のジュエリーをランキングで。</p>
+					</div>
+
+					<div class="ranking_editorial_count">
+						<strong>TOP 10 ITEMS</strong>
+					</div>
+				</aside>
+
+				<div class="ranking_editorial_content">
+					<div class="ranking_editorial_intro">
+						<div class="ranking_editorial_intro_inner">
+							<p class="ranking_editorial_kicker">CURATED FAVORITES</p>
+							<h2>RANKING</h2>
+						</div>
+					</div>
+
+					<div class="ranking_tabs" aria-label="ランキング種別">
+						<input class="ranking_tab_input" type="radio" name="rankingTab" id="ranking-tab-view" checked />
+						<input class="ranking_tab_input" type="radio" name="rankingTab" id="ranking-tab-favorite" />
+						<input class="ranking_tab_input" type="radio" name="rankingTab" id="ranking-tab-review" />
+
+						<div class="ranking_tab_buttons" role="tablist" aria-label="ランキング切り替え">
+							<label for="ranking-tab-view" role="tab">閲覧数ランキング</label>
+							<label for="ranking-tab-favorite" role="tab">お気に入りランキング</label>
+							<label for="ranking-tab-review" role="tab">レビューランキング</label>
+						</div>
+
+						<div class="ranking_tab_panels">
+							<section class="ranking_tab_panel ranking_tab_panel--view"
+								aria-labelledby="viewRankingTitle">
+								<div class="ranking_section_head">
+									<p>VIEW BASED</p>
+									<h3 id="viewRankingTitle">閲覧数ランキング</h3>
+								</div>
+
+								<div class="ranking_empty_state" th:if="${#lists.isEmpty(viewCountRanking)}">
+									<p>NO RANKING DATA</p>
+									<h4>ランキングデータがまだありません</h4>
+									<span>データが集まり次第、このタブに表示されます。</span>
+								</div>
+
+								<div th:unless="${#lists.isEmpty(viewCountRanking)}">
+									<div class="ranking_featured_grid">
+										<article class="ranking_featured_card"
+											th:each="item, status : ${viewCountRanking}" th:if="${status.count le 3}"
+											th:classappend="${status.count == 1} ? ' is-top' : ''">
+											<div class="ranking_featured_rank" th:text="${status.count}">1</div>
+											<a class="ranking_featured_image_link"
+												th:href="@{/client/item/detail/{id}(id=${item.id})}">
+												<span class="ranking_featured_image">
+													<img th:src="@{/images/{image}(image=${item.image})}"
+														th:if="${item.image != null and !#strings.isEmpty(item.image)}"
+														th:alt="${item.name}"
+														onerror="this.onerror=null;this.src='/shared_shop/images/common/no_image.jpg';" />
+													<img th:src="@{/images/common/no_image.jpg}"
+														th:if="${item.image == null or #strings.isEmpty(item.image)}"
+														th:alt="${item.name}" />
+												</span>
+											</a>
+											<div class="ranking_featured_body">
+												<span class="ranking_featured_category"
+													th:text="${item.category != null ? item.category.name : 'CATEGORY'}">CATEGORY</span>
+												<a class="ranking_featured_name"
+													th:href="@{/client/item/detail/{id}(id=${item.id})}"
+													th:text="${item.name}">商品名</a>
+												<div class="ranking_featured_meta">
+													<strong
+														th:text="${'¥' + #numbers.formatInteger(item.price, 1, 'COMMA')}">¥0</strong>
+													<span>閲覧数 <em th:text="${viewCount[status.index]}">0</em></span>
+												</div>
+											</div>
+										</article>
+									</div>
+
+									<div class="ranking_list_table" th:if="${#lists.size(viewCountRanking) > 3}">
+										<div class="ranking_list_head" aria-hidden="true">
+											<span>RANK</span>
+											<span>ITEM</span>
+											<span>PRICE</span>
+											<span>COUNT</span>
+											<span></span>
+										</div>
+
+										<article class="ranking_list_row" th:each="item, status : ${viewCountRanking}"
+											th:if="${status.count ge 4 and status.count le 10}">
+											<div class="ranking_list_rank" th:text="${status.count}">4</div>
+											<a class="ranking_list_item"
+												th:href="@{/client/item/detail/{id}(id=${item.id})}">
+												<span class="ranking_list_thumb">
+													<img th:src="@{/images/{image}(image=${item.image})}"
+														th:if="${item.image != null and !#strings.isEmpty(item.image)}"
+														th:alt="${item.name}"
+														onerror="this.onerror=null;this.src='/shared_shop/images/common/no_image.jpg';" />
+													<img th:src="@{/images/common/no_image.jpg}"
+														th:if="${item.image == null or #strings.isEmpty(item.image)}"
+														th:alt="${item.name}" />
+												</span>
+												<span class="ranking_list_texts">
+													<span class="ranking_list_name" th:text="${item.name}">商品名</span>
+													<span class="ranking_list_category"
+														th:text="${item.category != null ? item.category.name : 'CATEGORY'}">CATEGORY</span>
+												</span>
+											</a>
+											<div class="ranking_list_price"
+												th:text="${'¥' + #numbers.formatInteger(item.price, 1, 'COMMA')}">¥0
+											</div>
+											<div class="ranking_list_metric">閲覧数 <strong
+													th:text="${viewCount[status.index]}">0</strong></div>
+											<a class="ranking_list_link"
+												th:href="@{/client/item/detail/{id}(id=${item.id})}">VIEW</a>
+										</article>
+									</div>
+								</div>
+							</section>
+
+							<section class="ranking_tab_panel ranking_tab_panel--favorite"
+								aria-labelledby="favoriteRankingTitle">
+								<div class="ranking_section_head">
+									<p>FAVORITE BASED</p>
+									<h3 id="favoriteRankingTitle">お気に入りランキング</h3>
+								</div>
+
+								<div class="ranking_empty_state" th:if="${#lists.isEmpty(favoriteCountRanking)}">
+									<p>NO RANKING DATA</p>
+									<h4>お気に入りランキングはまだありません</h4>
+									<span>データが集まり次第、このタブに表示されます。</span>
+								</div>
+
+								<div th:unless="${#lists.isEmpty(favoriteCountRanking)}">
+									<div class="ranking_featured_grid">
+										<article class="ranking_featured_card"
+											th:each="item, status : ${favoriteCountRanking}"
+											th:if="${status.count le 3}"
+											th:classappend="${status.count == 1} ? ' is-top' : ''">
+											<div class="ranking_featured_rank" th:text="${status.count}">1</div>
+											<a class="ranking_featured_image_link"
+												th:href="@{/client/item/detail/{id}(id=${item.id})}">
+												<span class="ranking_featured_image">
+													<img th:src="@{/images/{image}(image=${item.image})}"
+														th:if="${item.image != null and !#strings.isEmpty(item.image)}"
+														th:alt="${item.name}"
+														onerror="this.onerror=null;this.src='/shared_shop/images/common/no_image.jpg';" />
+													<img th:src="@{/images/common/no_image.jpg}"
+														th:if="${item.image == null or #strings.isEmpty(item.image)}"
+														th:alt="${item.name}" />
+												</span>
+											</a>
+											<div class="ranking_featured_body">
+												<span class="ranking_featured_category"
+													th:text="${item.category != null ? item.category.name : 'CATEGORY'}">CATEGORY</span>
+												<a class="ranking_featured_name"
+													th:href="@{/client/item/detail/{id}(id=${item.id})}"
+													th:text="${item.name}">商品名</a>
+												<div class="ranking_featured_meta">
+													<strong
+														th:text="${'¥' + #numbers.formatInteger(item.price, 1, 'COMMA')}">¥0</strong>
+													<span>お気に入り <em
+															th:text="${favoriteCount[status.index]}">0</em></span>
+												</div>
+											</div>
+										</article>
+									</div>
+
+									<div class="ranking_list_table" th:if="${#lists.size(favoriteCountRanking) > 3}">
+										<div class="ranking_list_head" aria-hidden="true">
+											<span>RANK</span>
+											<span>ITEM</span>
+											<span>PRICE</span>
+											<span>COUNT</span>
+											<span></span>
+										</div>
+
+										<article class="ranking_list_row"
+											th:each="item, status : ${favoriteCountRanking}"
+											th:if="${status.count ge 4 and status.count le 10}">
+											<div class="ranking_list_rank" th:text="${status.count}">4</div>
+											<a class="ranking_list_item"
+												th:href="@{/client/item/detail/{id}(id=${item.id})}">
+												<span class="ranking_list_thumb">
+													<img th:src="@{/images/{image}(image=${item.image})}"
+														th:if="${item.image != null and !#strings.isEmpty(item.image)}"
+														th:alt="${item.name}"
+														onerror="this.onerror=null;this.src='/shared_shop/images/common/no_image.jpg';" />
+													<img th:src="@{/images/common/no_image.jpg}"
+														th:if="${item.image == null or #strings.isEmpty(item.image)}"
+														th:alt="${item.name}" />
+												</span>
+												<span class="ranking_list_texts">
+													<span class="ranking_list_name" th:text="${item.name}">商品名</span>
+													<span class="ranking_list_category"
+														th:text="${item.category != null ? item.category.name : 'CATEGORY'}">CATEGORY</span>
+												</span>
+											</a>
+											<div class="ranking_list_price"
+												th:text="${'¥' + #numbers.formatInteger(item.price, 1, 'COMMA')}">¥0
+											</div>
+											<div class="ranking_list_metric">お気に入り <strong
+													th:text="${favoriteCount[status.index]}">0</strong></div>
+											<a class="ranking_list_link"
+												th:href="@{/client/item/detail/{id}(id=${item.id})}">VIEW</a>
+										</article>
+									</div>
+								</div>
+							</section>
+
+							<section class="ranking_tab_panel ranking_tab_panel--review"
+								aria-labelledby="reviewRankingTitle">
+								<div class="ranking_section_head">
+									<p>REVIEW BASED</p>
+									<h3 id="reviewRankingTitle">レビューランキング</h3>
+								</div>
+
+								<div class="ranking_empty_state" th:if="${#lists.isEmpty(reviewCountRanking)}">
+									<p>READY FOR REVIEW DATA</p>
+									<h4>レビューランキング</h4>
+									<span>レビュー集計のデータを接続すると、このタブに表示されます。</span>
+								</div>
+
+								<div th:unless="${#lists.isEmpty(reviewCountRanking)}">
+									<div class="ranking_featured_grid">
+										<article class="ranking_featured_card"
+											th:each="item, status : ${reviewCountRanking}" th:if="${status.count le 3}"
+											th:classappend="${status.count == 1} ? ' is-top' : ''">
+											<div class="ranking_featured_rank" th:text="${status.count}">1</div>
+											<a class="ranking_featured_image_link"
+												th:href="@{/client/item/detail/{id}(id=${item.id})}">
+												<span class="ranking_featured_image">
+													<img th:src="@{/images/{image}(image=${item.image})}"
+														th:if="${item.image != null and !#strings.isEmpty(item.image)}"
+														th:alt="${item.name}"
+														onerror="this.onerror=null;this.src='/shared_shop/images/common/no_image.jpg';" />
+													<img th:src="@{/images/common/no_image.jpg}"
+														th:if="${item.image == null or #strings.isEmpty(item.image)}"
+														th:alt="${item.name}" />
+												</span>
+											</a>
+											<div class="ranking_featured_body">
+												<span class="ranking_featured_category"
+													th:text="${item.category != null ? item.category.name : 'CATEGORY'}">CATEGORY</span>
+												<a class="ranking_featured_name"
+													th:href="@{/client/item/detail/{id}(id=${item.id})}"
+													th:text="${item.name}">商品名</a>
+												<div class="ranking_featured_meta">
+													<strong
+														th:text="${'¥' + #numbers.formatInteger(item.price, 1, 'COMMA')}">¥0</strong>
+													<span>レビュー <em th:text="${reviewCount[status.index]}">0</em></span>
+												</div>
+											</div>
+										</article>
+									</div>
+								</div>
+							</section>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</body>
+
+</html>

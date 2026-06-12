@@ -9,16 +9,16 @@
 
 <body class="user order_list">
 	<h2 th:class="title" th:text="#{order}+#{title.list}"></h2>
-	<div th:if="${#lists.isEmpty(orders)}">
+	<div th:if="${#lists.isEmpty(order)}">
 		<p th:text="#{msg.client.order.list.none}"></p>
 	</div>
-	<table class="list_table order" th:if="!${#lists.isEmpty(orders)}">
+	<table class="list_table order" th:if="!${#lists.isEmpty(order)}">
 		<tr>
 			<th>[[#{data.client.order.date}]]</th>
 			<th>[[#{paymethod.str}]]</th>
 			<th>[[#{data.total.price}]]</th>
 		</tr>
-		<tr th:each="order: ${orders}">
+		<tr th:each="order: ${order}">
 			<td><a th:href="@{/client/order/detail/{id}(id=${order.id})}" th:text="${order.insertDate}"></a></td>
 			<td th:switch="${order.payMethod}">
 				<span th:case="1">[[#{paymethod.credit.str}]]</span>

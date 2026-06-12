@@ -69,25 +69,31 @@
 								<a class="basket_editorial_name" th:href="@{/client/item/detail/{id}(id=${item.id})}" th:text="${item.name}">Item name</a>
 								<span class="basket_editorial_category" th:text="${item.categoryName}">CATEGORY</span>
 								<small th:text="${item.description}">ITEM DETAILS</small>
-								<p class="basket_editorial_stock" th:classappend="${item.stock == 0} ? ' is_out' : (${item.stock <= 5} ? ' is_low' : '')">
-									<span th:if="${item.stock == 0}" th:text="#{data.out.of.stock}">在庫なし</span>
-									<span th:if="${item.stock > 5}" th:text="#{data.in.stock}">在庫あり</span>
-									<span th:if="${item.stock >= 1 and 5 >= item.stock}" th:text="'残り' + ${item.stock} + '点'">残り僅か</span>
-								</p>
 							</div>
 
 							<p class="basket_editorial_price" th:text="${'¥' + #numbers.formatInteger(item.price, 1, 'COMMA')}">¥0</p>
 
 							<div class="basket_qty_control" aria-label="数量">
-								<button type="button" class="basket_qty_button basket_qty_minus" aria-label="数量を減らす">−</button>
+								<form th:action="@{/client/basket/delete}" method="post" style="display: inline;">
+									<input type="hidden" name="id" th:value="${item.id}" />
+									<button type="submit" class="basket_qty_button basket_qty_minus" aria-label="数量を減らす">−</button>
+								</form>
+								
 								<span class="basket_qty_value" th:text="${item.orderNum}">1</span>
-								<button type="button" class="basket_qty_button basket_qty_plus" aria-label="数量を増やす">＋</button>
+								
+								<form th:action="@{/client/basket/add}" method="post" style="display: inline;">
+									<input type="hidden" name="id" th:value="${item.id}" />
+									<button type="submit" class="basket_qty_button basket_qty_plus" aria-label="数量を増やす">＋</button>
+								</form>
 							</div>
 
 							<p class="basket_editorial_subtotal" th:text="${'¥' + #numbers.formatInteger(item.subtotal, 1, 'COMMA')}">¥0</p>
 
 							<div class="basket_editorial_actions">
-								<button type="button">REMOVE</button>
+								<form th:action="@{/client/basket/singleDelete}" method="post">
+									<input type="hidden" name="id" th:value="${item.id}" />
+								<button type="submit">REMOVE</button>
+								</form>
 							</div>
 						</article>
 
