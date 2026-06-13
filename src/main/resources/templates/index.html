@@ -17,14 +17,32 @@
 			</div>
 			<div class="hero_button_container">
 				<div>
-					<a href="#latest_hot" th:if="${sortType==1}" class="hero_latest_button">新着商品を見る</a>
-					<a href="#latest_hot" th:if="${sortType==2}" class="hero_latest_button">売れ筋を見る</a>
+					<a href="#latest_hot" th:if="${sortType==1}" id="hero_latest_button">新着商品を見る</a>
+					<a href="#latest_hot" th:if="${sortType==2}" id="hero_latest_button">売れ筋を見る</a>
 				</div>
-				<a href="#recommend" class="hero_recommend_button">おすすめを見る →</a>
+				<a href="#recommend" id="hero_recommend_button" th:if="${loginUser != null}">おすすめを見る →</a>
 			</div>
 		</div>
 		<div class="hero_img">
 			<img th:src="@{/images/hero1.jpg}">
+		</div>
+	</div>
+	<div class="concept_container">
+		<div class="concept_img concept_left">
+			<img th:src="@{/images/hero3.jpg}">
+		</div>
+		<div class="concept_text_container">
+			<div class="concept_text">
+				<p class="concept">OUR CONCEPT</p>
+				<h2 class="concept_title">あああああ<br>あああああああ</h2>
+				<div class="hero_text concept_text_p">
+					<p>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
+				</div>
+				<div id="brand_button"><a href="#">ブランドストーリーを見る →</a></div>
+			</div>
+		</div>
+		<div class="concept_img concept_right">
+			<img th:src="@{images/hero2.jpg}">
 		</div>
 	</div>
 	<div>
