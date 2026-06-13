@@ -1,50 +1,102 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-	th:replace="~{common/layout_5block :: layout(~{::title},~{::body/content()})}">
+	th:replace="~{common/layout_5block :: layout(~{::title},~{::body/content()},~{::head/link})}">
 
 <head>
 	<title th:text="#{user}+#{title.update.check}+' | '+ #{shop.title}"> </title>
 	<meta charset="UTF-8" />
+	<link rel="stylesheet" type="text/css" th:href="@{/css/client/user/update_check.css}" />
 </head>
 
-<body class="user user_update_check">
+<body>
+	<div class="member-update-check-page" th:object="${userForm}"
+		th:with="emailChanged=${originalUser != null and originalUser.email ne userForm.email},
+			passwordChanged=${originalUser != null and originalUser.password ne userForm.password},
+			nameChanged=${originalUser != null and originalUser.name ne userForm.name},
+			postalCodeChanged=${originalUser != null and originalUser.postalCode ne userForm.postalCode},
+			addressChanged=${originalUser != null and originalUser.address ne userForm.address},
+			phoneNumberChanged=${originalUser != null and originalUser.phoneNumber ne userForm.phoneNumber}">
+		<section class="member-update-check-panel" aria-labelledby="memberUpdateCheckTitle">
+			<div class="member-update-check-heading">
+				<p class="member-update-check-kicker">CONFIRM CHANGES</p>
+				<h2 id="memberUpdateCheckTitle" class="member-update-check-title" th:text="#{user}+#{title.update.check}">会員変更確認</h2>
+				<p class="member-update-check-description">変更前と変更後の内容を確認してください。変更のある項目は赤く表示されます。</p>
+			</div>
 
-	<h2 th:class="title" th:text="#{user}+#{title.update.check}"></h2>
-	<p th:class="check_message" th:text="#{msg.update.check}"></p>
-	<div class="user_info_form_area"  th:object="${userForm}">
-		<ul class="input_list">
-			<li>
-				<span class="input_title">[[#{userForm.email}]]</span>
-				<span class="input_value" th:text="*{email}"></span>
-			</li>
-			<li>
-				<span class="input_title">[[#{userForm.password}]]</span>
-				<span class="input_value">********</span>
-			</li>
-			<li>
-				<span class="input_title">[[#{userForm.name}]]</span>
-				<span class="input_value" th:text="*{name}"></span>
-			</li>
-			<li>
-				<span class="input_title">[[#{userForm.postalCode}]]</span>
-				<span class="input_value" th:text="*{postalCode}"></span>
-			</li>
-			<li>
-				<span class="input_title">[[#{userForm.address}]]</span>
-				<span class="input_value" th:text="*{address}"></span>
-			</li>
-			<li>
-				<span class="input_title">[[#{userForm.phoneNumber}]]</span>
-				<span class="input_value" th:text="*{phoneNumber}"></span>
-			</li>
-		</ul>
+			<div class="member-update-check-compare">
+				<section class="member-update-check-box" aria-labelledby="beforeChangeTitle">
+					<h3 id="beforeChangeTitle" class="member-update-check-box-title">変更前</h3>
+					<dl class="member-update-check-list">
+						<div class="member-update-check-row" th:classappend="${emailChanged} ? ' is-changed' : ''">
+							<dt>[[#{userForm.email}]]</dt>
+							<dd th:text="${originalUser != null ? originalUser.email : ''}"></dd>
+						</div>
+						<div class="member-update-check-row" th:classappend="${passwordChanged} ? ' is-changed' : ''">
+							<dt>[[#{userForm.password}]]</dt>
+							<dd>********</dd>
+						</div>
+						<div class="member-update-check-row" th:classappend="${nameChanged} ? ' is-changed' : ''">
+							<dt>[[#{userForm.name}]]</dt>
+							<dd th:text="${originalUser != null ? originalUser.name : ''}"></dd>
+						</div>
+						<div class="member-update-check-row" th:classappend="${postalCodeChanged} ? ' is-changed' : ''">
+							<dt>[[#{userForm.postalCode}]]</dt>
+							<dd th:text="${originalUser != null ? originalUser.postalCode : ''}"></dd>
+						</div>
+						<div class="member-update-check-row" th:classappend="${addressChanged} ? ' is-changed' : ''">
+							<dt>[[#{userForm.address}]]</dt>
+							<dd th:text="${originalUser != null ? originalUser.address : ''}"></dd>
+						</div>
+						<div class="member-update-check-row" th:classappend="${phoneNumberChanged} ? ' is-changed' : ''">
+							<dt>[[#{userForm.phoneNumber}]]</dt>
+							<dd th:text="${originalUser != null ? originalUser.phoneNumber : ''}"></dd>
+						</div>
+					</dl>
+				</section>
 
-		<form th:action="@{/client/user/update/complete}" method="post">
-			<input type="submit" value="登録" class="send_button" />
-		</form>
-		<form th:action="@{/client/user/update/input}" method="post">
-			<input type="submit" value="戻る" class="back_button" />
-		</form>
+				<section class="member-update-check-box" aria-labelledby="afterChangeTitle">
+					<h3 id="afterChangeTitle" class="member-update-check-box-title">変更後</h3>
+					<dl class="member-update-check-list">
+						<div class="member-update-check-row" th:classappend="${emailChanged} ? ' is-changed' : ''">
+							<dt>[[#{userForm.email}]]</dt>
+							<dd th:text="*{email}"></dd>
+						</div>
+						<div class="member-update-check-row" th:classappend="${passwordChanged} ? ' is-changed' : ''">
+							<dt>[[#{userForm.password}]]</dt>
+							<dd>
+								<span>********</span>
+								<span class="member-update-check-badge" th:if="${passwordChanged}">変更あり</span>
+							</dd>
+						</div>
+						<div class="member-update-check-row" th:classappend="${nameChanged} ? ' is-changed' : ''">
+							<dt>[[#{userForm.name}]]</dt>
+							<dd th:text="*{name}"></dd>
+						</div>
+						<div class="member-update-check-row" th:classappend="${postalCodeChanged} ? ' is-changed' : ''">
+							<dt>[[#{userForm.postalCode}]]</dt>
+							<dd th:text="*{postalCode}"></dd>
+						</div>
+						<div class="member-update-check-row" th:classappend="${addressChanged} ? ' is-changed' : ''">
+							<dt>[[#{userForm.address}]]</dt>
+							<dd th:text="*{address}"></dd>
+						</div>
+						<div class="member-update-check-row" th:classappend="${phoneNumberChanged} ? ' is-changed' : ''">
+							<dt>[[#{userForm.phoneNumber}]]</dt>
+							<dd th:text="*{phoneNumber}"></dd>
+						</div>
+					</dl>
+				</section>
+			</div>
+
+			<div class="member-update-check-actions">
+				<form th:action="@{/client/user/update/complete}" method="post">
+					<input type="submit" value="変更を確定" class="member-update-check-primary" />
+				</form>
+				<form th:action="@{/client/user/update/input}" method="post">
+					<input type="submit" value="入力へ戻る" class="member-update-check-secondary" />
+				</form>
+			</div>
+		</section>
 	</div>
 </body>
 

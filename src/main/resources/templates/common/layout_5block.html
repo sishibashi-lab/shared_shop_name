@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-    th:fragment="layout(title,body)">
+    th:fragment="layout(title,body,pageHead)">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -11,6 +11,9 @@
 
 <link rel="stylesheet" type="text/css" th:href="@{/css/pages/basket-list.css}" />
 <link rel="stylesheet" type="text/css" th:href="@{/css/pages/ranking-list.css}" />
+<th:block th:if="${pageHead != null}">
+	<th:block th:replace="${pageHead}"></th:block>
+</th:block>
 <title  th:replace="${title}"></title>
 </head>
 <body class="user">
