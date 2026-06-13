@@ -1,16 +1,30 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-	th:replace="~{common/layout_5block :: layout(~{::title},~{::body/content()})}">
+	th:replace="~{common/layout_5block :: layout(~{::title},~{::body/content()},~{::head/link})}">
 
 <head>
 	<title th:text="#{user}+#{title.update.complete}+' | '+ #{shop.title}"> </title>
 	<meta charset="UTF-8" />
+	<link rel="stylesheet" type="text/css" th:href="@{/css/client/user/update_complete.css}" />
 </head>
 
-<body class="user user_update_complete">
-	<h2 th:class="title" th:text="#{user}+#{title.update.complete}"></h2>
-	<p th:class="complete_message" th:text="#{user}+#{msg.update.complete}"></p>
-	<p class="complete_link"><a th:href="@{/client/user/detail}" th:text="#{user}+#{msg.back.to.detail}"></a></p>
+<body>
+	<div class="member-update-complete-page">
+		<section class="member-update-complete-panel" aria-labelledby="memberUpdateCompleteTitle">
+			<div class="member-update-complete-icon" aria-hidden="true">
+				<span></span>
+			</div>
+			<p class="member-update-complete-kicker">UPDATE COMPLETE</p>
+			<h2 id="memberUpdateCompleteTitle" class="member-update-complete-title" th:text="#{user}+#{title.update.complete}">会員変更完了</h2>
+			<p class="member-update-complete-message" th:text="#{user}+#{msg.update.complete}">会員情報の変更が完了しました。</p>
+			<p class="member-update-complete-note">変更後の内容は会員詳細画面から確認できます。</p>
+
+			<div class="member-update-complete-actions">
+				<a th:href="@{/client/user/detail}" class="member-update-complete-primary" th:text="#{user}+#{msg.back.to.detail}">会員詳細へ戻る</a>
+				<a th:href="@{/}" class="member-update-complete-secondary">Topへ戻る</a>
+			</div>
+		</section>
+	</div>
 </body>
 
 </html>

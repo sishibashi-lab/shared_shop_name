@@ -128,6 +128,13 @@ public class ClientUserUpdateController {
 		//入力フォーム情報をリクエストスコープに設定
 		model.addAttribute("userForm", userForm);
 		
+		//比較用の現在会員情報を取得してリクエストスコープに設定
+		User originalUser = null;
+		if (userForm != null && userForm.getId() != null) {
+			originalUser = repository.findByIdAndDeleteFlag(userForm.getId(), Constant.NOT_DELETED);
+		}
+		model.addAttribute("originalUser", originalUser);
+		
 		//登録確認画面表示
 		return "client/user/update_check";
 	}

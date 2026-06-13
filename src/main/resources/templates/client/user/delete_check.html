@@ -1,44 +1,63 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-	th:replace="~{common/layout_5block :: layout(~{::title},~{::body/content()})}">
+	th:replace="~{common/layout_5block :: layout(~{::title},~{::body/content()},~{::head/link})}">
 
 <head>
 	<title th:text="#{user}+#{title.quit.check}+' | '+ #{shop.title}"> </title>
 	<meta charset="UTF-8" />
+	<link rel="stylesheet" type="text/css" th:href="@{/css/client/user/delete_check.css}" />
 </head>
 
-<body class="user user_delete_check">
-	<h2 th:class="title" th:text="#{user}+#{title.quit.check}"></h2>
-	<p th:class="check_message" th:text="#{msg.client.delete.check}"></p>
-	<div class="user_info_form_area" th:object="${userForm}">
-		<ul class="input_list">
-			<li>
-				<span class="input_title">[[#{userForm.email}]]</span>
-				<span class="input_value" th:text="*{email}"></span>
-			</li>
-			<li>
-				<span class="input_title">[[#{userForm.name}]]</span>
-				<span class="input_value" th:text="*{name}"></span>
-			</li>
-			<li>
-				<span class="input_title">[[#{userForm.postalCode}]]</span>
-				<span class="input_value" th:text="*{postalCode}"></span>
-			</li>
-			<li>
-				<span class="input_title">[[#{userForm.address}]]</span>
-				<span class="input_value" th:text="*{address}"></span>
-			</li>
-			<li>
-				<span class="input_title">[[#{userForm.phoneNumber}]]</span>
-				<span class="input_value" th:text="*{phoneNumber}"></span>
-			</li>
-		</ul>
-		<form th:action="@{/client/user/delete/complete}"  method="post" class="user_info_form">
-			<input type="submit" value="退会" class="send_button delete" />
-		</form>
-		<form th:action="@{/client/user/detail}" method="post">
-			<input type="submit" value="戻る" class="back_button" />
-		</form>
+<body>
+	<div class="member-delete-check-page" th:object="${userForm}">
+		<section class="member-delete-check-panel" aria-labelledby="memberDeleteCheckTitle">
+			<div class="member-delete-check-heading">
+				<div class="member-delete-check-icon" aria-hidden="true">
+					<span></span>
+				</div>
+				<p class="member-delete-check-kicker">DELETE ACCOUNT</p>
+				<h2 id="memberDeleteCheckTitle" class="member-delete-check-title" th:text="#{user}+#{title.quit.check}">会員退会確認</h2>
+				<p class="member-delete-check-description" th:text="#{msg.client.delete.check}">退会する場合は、以下の内容を確認してください。</p>
+			</div>
+
+			<div class="member-delete-check-warning">
+				<p class="member-delete-check-warning-title">退会前の確認</p>
+				<p class="member-delete-check-warning-text">退会を確定すると、現在の会員情報は利用できなくなります。内容を確認してから操作してください。</p>
+			</div>
+
+			<div class="member-delete-check-card">
+				<h3 class="member-delete-check-card-title">退会対象の会員情報</h3>
+				<dl class="member-delete-check-list">
+					<div class="member-delete-check-row">
+						<dt>[[#{userForm.email}]]</dt>
+						<dd th:text="*{email}">ippan_saburo@test.co.jp</dd>
+					</div>
+					<div class="member-delete-check-row">
+						<dt>[[#{userForm.name}]]</dt>
+						<dd th:text="*{name}">一般三郎</dd>
+					</div>
+					<div class="member-delete-check-row">
+						<dt>[[#{userForm.postalCode}]]</dt>
+						<dd th:text="*{postalCode}">1111111</dd>
+					</div>
+					<div class="member-delete-check-row">
+						<dt>[[#{userForm.address}]]</dt>
+						<dd th:text="*{address}">東京都台東区4-5-6 ABCマンション5階</dd>
+					</div>
+					<div class="member-delete-check-row">
+						<dt>[[#{userForm.phoneNumber}]]</dt>
+						<dd th:text="*{phoneNumber}">0123456789</dd>
+					</div>
+				</dl>
+			</div>
+
+			<div class="member-delete-check-actions">
+				<a th:href="@{/client/user/detail}" class="member-delete-check-secondary">会員詳細へ戻る</a>
+				<form th:action="@{/client/user/delete/complete}" method="post" class="member-delete-check-form">
+					<input type="submit" value="退会を確定" class="member-delete-check-danger" />
+				</form>
+			</div>
+		</section>
 	</div>
 </body>
 

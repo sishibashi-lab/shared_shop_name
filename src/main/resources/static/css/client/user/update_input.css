@@ -1,0 +1,260 @@
+/* ---- 会員情報変更入力画面（新規会員登録フォームと統一） ---- */
+.member-update-page {
+	width: 100%;
+	min-height: 520px;
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
+	padding: 20px 24px 54px;
+	box-sizing: border-box;
+	color: #222;
+}
+
+.member-update-page .auth_panel {
+	width: min(760px, 100%);
+	margin: 0 auto;
+	padding: 48px 56px 46px;
+	background: rgba(255, 252, 246, 0.78);
+	border: 1px solid rgba(185, 163, 131, 0.58);
+	box-shadow: 0 22px 54px rgba(80, 56, 28, 0.08);
+	box-sizing: border-box;
+	position: relative;
+}
+
+.member-update-page .auth_panel::before,
+.member-update-page .auth_panel::after {
+	content: "";
+	position: absolute;
+	left: 50%;
+	width: 12px;
+	height: 12px;
+	background: #b9a383;
+	transform: translateX(-50%) rotate(45deg);
+}
+
+.member-update-page .auth_panel::before {
+	top: -7px;
+}
+
+.member-update-page .auth_panel::after {
+	bottom: -7px;
+}
+
+.member-update-page .auth_panel_register {
+	width: min(820px, 100%);
+}
+
+.member-update-page .auth_heading {
+	text-align: center;
+	margin-bottom: 32px;
+}
+
+.member-update-page .auth_kicker {
+	margin: 0 0 12px;
+	color: #b9a383;
+	font-size: 0.78rem;
+	letter-spacing: 0.28em;
+	line-height: 1;
+}
+
+.member-update-page .auth_title {
+	margin: 0;
+	color: #222;
+	font-size: 2rem;
+	font-weight: 400;
+	letter-spacing: 0.08em;
+	line-height: 1.35;
+	text-align: center;
+}
+
+.member-update-page .auth_description {
+	margin: 16px 0 0;
+	color: rgba(34, 34, 34, 0.68);
+	font-size: 0.98rem;
+	letter-spacing: 0.04em;
+	line-height: 1.8;
+	text-align: center;
+}
+
+.member-update-page .auth_form {
+	display: block;
+	width: 100%;
+}
+
+.member-update-page .auth_field_grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 20px 22px;
+}
+
+.member-update-page .auth_field {
+	display: block;
+	min-width: 0;
+}
+
+.member-update-page .auth_field_full {
+	grid-column: 1 / -1;
+}
+
+.member-update-page .auth_label {
+	display: block;
+	margin-bottom: 9px;
+	color: #5f4b30;
+	font-size: 0.88rem;
+	letter-spacing: 0.08em;
+}
+
+.member-update-page .auth_field input,
+.member-update-page .auth_field textarea {
+	width: 100%;
+	padding: 12px 14px;
+	border: 1px solid rgba(34, 34, 34, 0.42);
+	border-radius: 0;
+	background: rgba(255, 255, 255, 0.72);
+	box-sizing: border-box;
+	color: #222;
+	font-size: 1rem;
+	letter-spacing: 0.03em;
+	transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.member-update-page .auth_field textarea {
+	resize: vertical;
+	min-height: 112px;
+	line-height: 1.7;
+}
+
+.member-update-page .auth_field input::placeholder,
+.member-update-page .auth_field textarea::placeholder {
+	color: rgba(34, 34, 34, 0.34);
+}
+
+.member-update-page .auth_field input:focus,
+.member-update-page .auth_field textarea:focus {
+	outline: none;
+	border-color: #b9a383;
+	background: rgba(255, 255, 255, 0.95);
+	box-shadow: 0 0 0 3px rgba(185, 163, 131, 0.16);
+}
+
+.member-update-page .auth_note {
+	display: block;
+	margin-top: 7px;
+	color: rgba(34, 34, 34, 0.52);
+	font-size: 0.78rem;
+	line-height: 1.55;
+}
+
+.member-update-page .auth_action_row {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 18px;
+	margin-top: 34px;
+	flex-wrap: wrap;
+}
+
+.member-update-page .auth_primary_button {
+	appearance: none;
+	-webkit-appearance: none;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 180px;
+	height: 46px;
+	padding: 0 28px;
+	border: 1px solid #222;
+	box-sizing: border-box;
+	background: #222;
+	color: #fffaf2;
+	font-family: inherit;
+	font-size: 0.95rem;
+	letter-spacing: 0.12em;
+	line-height: 44px;
+	text-decoration: none;
+	cursor: pointer;
+	transition: background-color 0.22s ease, border-color 0.22s ease, color 0.22s ease, transform 0.22s ease, box-shadow 0.22s ease;
+}
+
+.member-update-page .auth_primary_button:hover,
+.member-update-page .auth_primary_button:focus-visible {
+	background: #7e5f2d;
+	border-color: #7e5f2d;
+	color: #fffaf2;
+	transform: translateY(-2px);
+	box-shadow: 0 12px 24px rgba(126, 95, 45, 0.14);
+	outline: none;
+}
+
+.member-update-page .auth_text_link,
+.member-update-page .auth_text_link:visited {
+	position: relative;
+	color: #222;
+	font-size: 0.92rem;
+	letter-spacing: 0.06em;
+	text-decoration: none;
+}
+
+.member-update-page .auth_text_link::after {
+	content: "";
+	position: absolute;
+	left: 50%;
+	bottom: -7px;
+	width: 0;
+	height: 2px;
+	background: #b9a383;
+	transform: translateX(-50%);
+	transition: width 0.22s ease;
+}
+
+.member-update-page .auth_text_link:hover::after,
+.member-update-page .auth_text_link:focus-visible::after {
+	width: 100%;
+}
+
+.member-update-page .auth_text_link:hover,
+.member-update-page .auth_text_link:focus-visible {
+	color: #7e5f2d;
+	outline: none;
+}
+
+.member-update-page .auth_error_list {
+	margin: 0 0 24px;
+	padding: 16px 18px 16px 34px;
+	background: rgba(196, 64, 42, 0.06);
+	border: 1px solid rgba(196, 64, 42, 0.22);
+	box-sizing: border-box;
+}
+
+.member-update-page .auth_error_list li {
+	color: #b43621;
+	font-size: 0.88rem;
+	line-height: 1.65;
+	list-style: disc;
+}
+
+@media screen and (max-width: 760px) {
+	.member-update-page {
+		padding: 10px 14px 42px;
+	}
+
+	.member-update-page .auth_panel,
+	.member-update-page .auth_panel_register {
+		width: 100%;
+		padding: 38px 24px 40px;
+	}
+
+	.member-update-page .auth_title {
+		font-size: 1.62rem;
+	}
+
+	.member-update-page .auth_field_grid {
+		grid-template-columns: 1fr;
+		gap: 18px;
+	}
+
+	.member-update-page .auth_primary_button {
+		width: 100%;
+		min-width: 0;
+	}
+}
