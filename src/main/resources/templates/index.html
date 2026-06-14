@@ -45,33 +45,70 @@
 			<img th:src="@{images/hero2.jpg}">
 		</div>
 	</div>
-	<div>
-		<h2 class="title" id="latest_hot">
-			<span th:if="${sortType==1}" th:text="#{sort.latest.title}"></span>
-			<span th:if="${sortType==2 || sortType==null}" th:text="#{sort.hotsell.title}"></span>
-		</h2>
+	<div id="latest_hot">
+		<div class="hot_title_left">
+			<p class="hot_new_en">
+				<span th:if="${sortType==1}">NEW PRODUCTS</span>
+				<span th:if="${sortType==2 || sortType==null}">BEST SELLERS</span>
+			</p>
+			<h2 class="hot_new_title">
+				<span th:if="${sortType==1}" th:text="#{sort.latest.title}"></span>
+				<span th:if="${sortType==2 || sortType==null}" th:text="#{sort.hotsell.title}"></span>
+			</h2>
+		</div>
+		<div class="hot_title_right">
+			<span class="top4">TOP 4 / WEEKLY EDIT</span>
+			<span th:if="${sortType==1}" class="best_new">NEW</span>
+			<span th:if="${sortType==2 || sortType==null}" class="best_new">BEST</span>
+		</div>
 	</div>
 	<div th:if="${#lists.isEmpty(items)}" class="list_none_msg">
 		<p th:text="#{msg.client.item.list.none}"></p>
 	</div>
-	<div class="item_list">
-		<th:block th:each="item, status: ${items}" th:if="${status.count le 10}">
+	<div class="hot_item_list">
+		<th:block th:each="item, status: ${items}" th:if="${status.count le 1}">
 			<!--/* 1件分の商品情報 */-->
-			<div class="item">
-				<a th:href="@{/client/item/detail/}+${item.id}">
-					<img th:src="@{/images/{image}(image=${item.image})}" th:if="${item.image != null}" />
-					<img th:src="@{/images/common/no_image.jpg}" th:if="${item.image == null}" />
-				</a>
-				<div class="product-card__body">
-					<a th:href="@{/client/item/detail/}+${item.id}" th:text="${item.name}">商品名</a>
-					<p class="product-card__description" th:text="${item.description}">説明文</p>
-					<div class="product-card__meta">
-						<span th:text="${item.categoryName}">CATEGORY</span>
-						<strong th:text="${#numbers.formatInteger(item.price, 3, 'COMMA')} + '円'">0円</strong>
+			<div class="hot_left">
+				<div class="hot_left_img">
+					<div class="no1">No.01</div>
+					<a th:href="@{/client/item/detail/}+${item.id}">
+						<img th:src="@{/images/{image}(image=${item.image})}" th:if="${item.image != null}" />
+						<img th:src="@{/images/common/no_image.jpg}" th:if="${item.image == null}" />
+					</a>
+				</div>
+				<div class="hot_left_text">
+					<span th:text="${item.categoryName}" class="hot_category">CATEGORY</span><br>
+					<a th:href="@{/client/item/detail/}+${item.id}" th:text="${item.name}" class="hot_item_name">商品名</a>
+					<p class="hot_product-card__description" th:text="${item.description}">説明文</p>
+					<div class="hot_left_price">
+						<strong
+							th:text="'&yen;'+${#numbers.formatInteger(item.price, 3, 'COMMA')} + ' (税込)'">0円</strong>
 					</div>
 				</div>
 			</div>
 		</th:block>
+		<div class="hot_right_container">
+			<th:block th:each="item, status: ${items}" th:if="${status.count ge 2 and status.count le 4}">
+				<!--/* 1件分の商品情報 */-->
+				<div class="hot_right">
+					<div class="number"><div th:text="'0'+${status.count}"></div></div>
+					<div class="hot_right_img">
+						<a th:href="@{/client/item/detail/}+${item.id}">
+							<img th:src="@{/images/{image}(image=${item.image})}" th:if="${item.image != null}" />
+							<img th:src="@{/images/common/no_image.jpg}" th:if="${item.image == null}" />
+						</a>
+					</div>
+					<div class="hot_product-card__body_right">
+							<span th:text="${item.categoryName}" class="hot_category">CATEGORY</span><br>
+						<a th:href="@{/client/item/detail/}+${item.id}" th:text="${item.name}" class="hot_item_name_right">商品名</a>
+						<p class="hot_product-card__description" th:text="${item.description}">説明文</p>
+						<div class="hot_right_price">
+							<strong th:text="'&yen;'+${#numbers.formatInteger(item.price, 3, 'COMMA')} + ' (税込)'">0円</strong>
+						</div>
+					</div>
+				</div>
+			</th:block>
+		</div>
 	</div>
 
 
