@@ -195,11 +195,13 @@ p {
 		position: absolute;
 		left: 30px;
 		color: #fff;
-		text-shadow:2px 2px 4px #000;
+		text-shadow: 2px 2px 4px #000;
 	}
-	.concept_text_p{
-		color:lightgray;
+
+	.concept_text_p {
+		color: lightgray;
 	}
+
 	.concept_left {
 		width: 60%;
 		min-width: 400px;
@@ -220,10 +222,240 @@ p {
 
 	#brand_button a:hover {
 		opacity: 80%;
-		background-color:#5f4b30;
+		background-color: #5f4b30;
 	}
 
 
+}
+
+/*売れ筋商品*/
+#latest_hot {
+	display: flex;
+	width: 90%;
+	justify-content: space-between;
+	margin: auto;
+	padding-top: 100px;
+}
+
+.hot_new_en {
+	margin: 0;
+}
+
+.hot_new_en span {
+	color: #B9904F;
+	font-weight: bold;
+	letter-spacing: 2px;
+}
+
+.hot_new_title span {
+	font-family: '游明朝';
+	font-size: 60px;
+	font-weight: bold;
+
+}
+
+.hot_title_right {
+	margin-top: -65px;
+}
+
+.top4 {
+	color: #B9904F;
+	font-weight: bold;
+	letter-spacing: 2px;
+	padding: 0 30px;
+	border-left: solid #F3EDE2 2px;
+}
+
+.best_new {
+	font-family: '游明朝';
+	font-weight: bold;
+	letter-spacing: -10px;
+	color: #F3EDE2;
+	font-size: 130px;
+}
+@media(max-width:800px){
+	.hot_title_right{
+		width: 300px;
+		margin-top: 0;
+	}
+	.hot_new_title{
+		width: 200px;
+	}
+}
+/*売れ筋商品リスト*/
+
+.hot_item_list {
+	display: flex;
+	width: 95%;
+	justify-content: space-between;
+	margin: auto;
+	height: 700px;
+}
+
+.hot_left {
+	width: 750px;
+	min-width: 600px;
+	padding: 15px;
+	background-color: #FFFCF7;
+	box-shadow: 2px 2px 30px #E8DFD0;
+	display: flex;
+	margin-right: 10px;
+}
+
+.hot_left_img {
+	min-width: 400px;
+	overflow: hidden;
+	position: relative;
+}
+
+.hot_left_img a img {
+	height: 100%;
+	margin-left: -115px;
+	transition: 0.3s;
+}
+
+.no1 {
+	position: absolute;
+	top: 20px;
+	left: 20px;
+	font-family: 'Noto Serif JP Black';
+	color: #fff;
+	background-color: #000;
+	padding: 5px 20px;
+	z-index: 2;
+}
+
+.hot_left_img a img:hover {
+	transform: scale(1.1);
+	z-index: 0;
+}
+
+.hot_left_text {
+	margin: 150px 20px;
+}
+
+.hot_category {
+	color: #B9904F;
+	font-weight: bold;
+	letter-spacing: 2px;
+	margin-left: 5%;
+}
+
+.hot_item_name {
+	font-family: '游明朝';
+	font-weight: bold;
+	font-size: 60px;
+	color: #222;
+	text-decoration: none;
+	line-height: 1;
+}
+
+.hot_product-card__description {
+	width: 90%;
+	margin: auto;
+	color: #616161;
+	font-size: 16px;
+	overflow-wrap: break-word;
+}
+
+.hot_left_price {
+	margin-left: 5%;
+	margin-top: 30px;
+}
+
+.hot_right_container {
+	width: 42%;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	gap: 3%;
+}
+
+.hot_right {
+	display: flex;
+	min-height: 27%;
+	padding: 15px;
+	background-color: #FFFCF7;
+	box-shadow: 2px 2px 30px #E8DFD0;
+}
+
+.number {
+	width: 18%;
+	font-family: 'Noto Serif JP Black';
+	color: #EAE2D4;
+	font-size: 60px;
+	height: 100%;
+	border-right: #EAE2D4 solid 1px;
+}
+
+.number div {
+	height: 100%;
+	width: fit-content;
+	margin: auto;
+	margin-top: 40px;
+}
+
+.hot_right_img {
+	width: 28%;
+	overflow: hidden;
+	margin: 0 10px;
+}
+
+.hot_right_img a img {
+	height: 100%;
+	transition: 0.3s;
+}
+
+.hot_right_img a img:hover {
+	transform: scale(1.1);
+}
+
+.hot_product-card__body_right {
+	width: 50%;
+}
+
+.hot_item_name_right {
+	text-decoration: none;
+	color: #222;
+	font-weight: bold;
+	font-size: 26px;
+	margin: 5%;
+}
+
+.hot_right_price {
+	margin: 5%;
+}
+
+@media(max-width:900px) {
+	.hot_item_list {
+		flex-wrap: wrap;
+		height: fit-content;
+	}
+
+	.hot_left {
+		width: 100%;
+	}
+
+	.hot_left_img {
+		width: 400px;
+		min-width: 400px;
+		overflow: hidden;
+		position: relative;
+	}
+
+	.hot_left_img a img {
+		height: 100%;
+		margin-left: -115px;
+		transition: 0.3s;
+	}
+
+	.hot_right_container {
+		width: 100%;
+	}
+
+	.hot_right {
+		height: 180px;
+	}
 }
 
 /* ---- 入力フォーム(ログイン) ---- */
